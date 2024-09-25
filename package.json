@@ -1,0 +1,21 @@
+{
+  "name": "frameupjs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node packages/create-frameup/bin/frameup.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chalk": "5.3.0",
+    "chalk-animation": "2.0.3",
+    "commander": "12.1.0",
+    "figlet": "1.7.0",
+    "fs-extra": "11.2.0",
+    "inquirer": "11.0.2"
+  }
+}
