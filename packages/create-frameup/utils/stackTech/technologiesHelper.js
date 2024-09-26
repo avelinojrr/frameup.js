@@ -4,7 +4,7 @@
 
 import chalk from "chalk"
 
-export const languages = [
+const languages = [
     {'name': 'JavaScript', 'color': chalk.yellowBright},
     {'name': 'TypeScript', 'color': chalk.blueBright},
 ]
@@ -15,13 +15,13 @@ export const languagesChoices = languages.map(l => ({
     color: l.color
 }));
 
-export const frameworks = [
-    {'name': 'Express.js', 'color': chalk.whiteBright}, // Color hex para Express.js
-    {'name': 'Koa.js', 'color': chalk.hex('#6e6f70')}, // Color hex para Koa.js
-    {'name': 'Hapi.js', 'color': chalk.hex('#ff9200')}, // Color hex para Hapi.js
-    {'name': 'Meteor.js', 'color': chalk.hex('#FF3E00')}, // Color hex para Meteor.js
-    {'name': 'NestJS', 'color': chalk.redBright}, // Color hex para NestJS
-    {'name': 'AdonisJS', 'color': chalk.hex('#2200FF')}, // Color hex para AdonisJS
+const frameworks = [
+    {'name': 'Express.js', 'color': chalk.whiteBright}, 
+    {'name': 'Koa.js', 'color': chalk.hex('#6e6f70')}, 
+    {'name': 'Hapi.js', 'color': chalk.hex('#ff9200')}, 
+    {'name': 'Meteor.js', 'color': chalk.hex('#FF3E00')}, 
+    {'name': 'NestJS', 'color': chalk.redBright}, 
+    {'name': 'AdonisJS', 'color': chalk.hex('#2200FF')},
 ]
 
 export const frameworkChoices = frameworks.map(f => ({
