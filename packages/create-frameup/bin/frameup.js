@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 import { getStackConfig } from "../src/helpers/promptsHelper.js";
+import { generateScaffolding } from "../src/commands/generate.js";
 
-async function main() {
+async function runCLI() {
     console.log('Welcome to Frameup CLI!');
 
     try {
@@ -10,9 +11,12 @@ async function main() {
         const stackConfig = await getStackConfig();
         console.log('User configuration:', stackConfig);
 
+        // Generate the scaffolding
+        await generateScaffolding(stackConfig);
+
     } catch (error) {
         console.error('An error occurred:', error);
     }
 }
 
-main();
+runCLI();
