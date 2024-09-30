@@ -1,6 +1,22 @@
 #!/usr/bin/env node
-import inquirer from "inquirer";
-import path from "node:path";
-import fs from "node:fs/promises";
 
-console.log("Welcome to FrameUp CLI!");
+import { getStackConfig } from "../src/helpers/promptsHelper.js";
+import { generateScaffolding } from "../src/commands/generate.js";
+
+async function runCLI() {
+    console.log('Welcome to Frameup CLI!');
+
+    try {
+        // Get the configuration selected by the user
+        const stackConfig = await getStackConfig();
+        console.log('User configuration:', stackConfig);
+
+        // Generate the scaffolding
+        await generateScaffolding(stackConfig);
+
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+runCLI();

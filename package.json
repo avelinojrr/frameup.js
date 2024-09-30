@@ -4,18 +4,30 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node packages/create-frameup/bin/frameup.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon packages/create-frameup/bin/frameup.js"
+  },
+  "bin": {
+    "frameup": "packages/create-frameup/bin/frameup.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@inquirer/prompts": "^6.0.1",
+    "@inquirer/select": "3.0.1",
     "chalk": "5.3.0",
     "chalk-animation": "2.0.3",
     "commander": "12.1.0",
+    "enquirer": "^2.4.1",
     "figlet": "1.7.0",
     "fs-extra": "11.2.0",
-    "inquirer": "11.0.2"
+    "inquirer": "11.0.2",
+    "picocolors": "1.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
