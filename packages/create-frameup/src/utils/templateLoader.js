@@ -3,9 +3,10 @@ import path from 'path';
 
 /**
  * Load the template from the given path, including subdirectories.
+ * Exclude database folders that are not selected.
  */
 
-export function loadTemplate(templatePath) {
+export function loadTemplate(templatePath, excludeDirs = []) {
     const files = [];
 
     // Recursive function to read files from directories
@@ -16,6 +17,8 @@ export function loadTemplate(templatePath) {
             const fullPath = path.join(dir, item);
             const stat = fs.statSync(fullPath);
 
+            // Skip excluded directories
+            const relativeDir = path.relative(templatePath, dir);
             if (stat.isDirectory()) {
                 // If it's a directory, read it recursively
                 readDirRecursive(fullPath);
