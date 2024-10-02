@@ -7,18 +7,18 @@ import chalk from 'chalk';
 
 // Language choices
 export const languagesChoices = [
-    { name: 'JavaScript', color: chalk.yellow },
-    { name: 'TypeScript', color: chalk.blue }
+    { name: 'JavaScript', color: chalk.yellow.bold },
+    { name: 'TypeScript', color: chalk.blue.bold }
 ]
 
 // Framework choices
 export const frameworksChoices = [
-    {'name': 'Express.js', 'color': chalk.whiteBright}, 
-    {'name': 'Koa.js', 'color': chalk.hex('#6e6f70')}, 
-    {'name': 'Hapi.js', 'color': chalk.hex('#ff9200')}, 
-    {'name': 'Meteor.js', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'NestJS', 'color': chalk.redBright}, 
-    {'name': 'AdonisJS', 'color': chalk.hex('#2200FF')},
+    {'name': 'Express.js', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Koa.js', 'color': chalk.hex('#6e6f70').bold}, 
+    {'name': 'Hapi.js', 'color': chalk.hex('#ff9200').bold}, 
+    {'name': 'Meteor.js', 'color': chalk.hex('#FF3E00').bold}, 
+    {'name': 'NestJS', 'color': chalk.redBright.bold}, 
+    {'name': 'AdonisJS', 'color': chalk.hex('#2200FF').bold},
 ]
 
 // Architecture choices

@@ -3,7 +3,7 @@ import chalk from "chalk";
 import pkg from "enquirer";
 const {
     prompt,
-    Select
+    Select,
 } = pkg;
 
 import {
@@ -28,7 +28,6 @@ async function promptUser(promptConfig) {
     }
 }
 
-// Función que se encarga de ejecutar los prompts y devolver la configuración del usuario
 export async function getStackConfig() {
     const stackConfig = {};
 
@@ -47,7 +46,8 @@ export async function getStackConfig() {
     // Ask about the language
     stackConfig.language = await promptUser({
         name: 'language',
-        message: `Select a language to use: ${chalk.dim('(Use arrow keys)')}`,
+        message: `${frameupColors.inputMessage('Select a language to use:')}`,
+        initial: chalk.dim('Use arrow-keys. Enter to submit.'),
         choices: languagesChoices.map(lang => ({
             name: lang.name,
             message: lang.color(lang.name),
@@ -65,7 +65,8 @@ export async function getStackConfig() {
     // Ask about the framework
     stackConfig.framework = await promptUser({
         name: 'framework',
-        message: `Select a framework to use: ${chalk.dim('(Use arrow keys)')}`,
+        message: `${frameupColors.inputMessage('Select a framework to use:')}`,
+        initial: chalk.dim('Use arrow-keys. Enter to submit.'),
         choices: frameworksChoices.map(framework => ({
             name: framework.name,
             message: framework.color(framework.name),
@@ -80,41 +81,105 @@ export async function getStackConfig() {
         }
     })
 
-    // Ask about the architecture
-    stackConfig.architecture = await promptUser({
-        name: 'architecture',
-        message: `Select an architecture to use: ${chalk.dim('(Use arrow keys)')}`,
-        choices: architectureChoices.map(architecture => ({
-            name: architecture.name,
-            message: architecture.color(architecture.name),
-            value: architecture.name
-        })),
-        result(name) {
-            return this.choices.find(choice => choice.name === name).value;
-        },
+    // Ask if developer wants added a architecture
+    const { promptAddArchitecture } = await prompt({
+        type: 'confirm',
+        name: 'promptAddArchitecture',
+        message: frameupColors.inputMessage('Would you like to add an architecture?'),
+        initial: true, // Yes by default
         format(input) {
-            const selected = architectureChoices.find(a => a.name === input);
-            return selected ? selected.color(input) : input;
+            // Added color to the response
+            return input ? frameupColors.inputResponse('Yes') : frameupColors.inputResponse('No');
         }
-    })
+    });
+
+    if (promptAddArchitecture) {
+        // Ask about the architecture
+        stackConfig.architecture = await promptUser({
+            name: 'architecture',
+            message: `${frameupColors.inputMessage('Select an architecture to use:')}`,
+            choices: architectureChoices.map(architecture => ({
+                name: architecture.name,
+                message: architecture.color(architecture.name),
+                value: architecture.name
+            })),
+            result(name) {
+                return this.choices.find(choice => choice.name === name).value;
+            },
+            format(input) {
+                const selected = architectureChoices.find(a => a.name === input);
+                return selected ? selected.color(input) : input;
+            }
+        });
+    }
+
+    // Ask about the architecture
+    // stackConfig.architecture = await promptUser({
+    //     name: 'architecture',
+    //     message: `Select an architecture to use: ${chalk.dim('(Use arrow keys)')}`,
+    //     choices: architectureChoices.map(architecture => ({
+    //         name: architecture.name,
+    //         message: architecture.color(architecture.name),
+    //         value: architecture.name
+    //     })),
+    //     result(name) {
+    //         return this.choices.find(choice => choice.name === name).value;
+    //     },
+    //     format(input) {
+    //         const selected = architectureChoices.find(a => a.name === input);
+    //         return selected ? selected.color(input) : input;
+    //     }
+    // })
 
     // Ask about the design pattern
-    stackConfig.designPattern = await promptUser({
-        name: 'designPattern',
-        message: `Select a design pattern to use: ${chalk.dim('(Use arrow keys)')}`,
-        choices: designPatternChoices.map(designPattern => ({
-            name: designPattern.name,
-            message: designPattern.color(designPattern.name),
-            value: designPattern.name
-        })),
-        result(name) {
-            return this.choices.find(choice => choice.name === name).value;
-        },
+
+    const { promptAddDesignPattern } = await prompt({
+        type: 'confirm',
+        name: 'promptAddDesignPattern',
+        message: frameupColors.inputMessage('Would you like to add a design pattern?'),
+        initial: true, // Yes by default
         format(input) {
-            const selected = designPatternChoices.find(d => d.name === input);
-            return selected ? selected.color(input) : input;
+            // Added color to the response
+            return input ? frameupColors.inputResponse('Yes') : frameupColors.inputResponse('No');
         }
-    })
+    });
+
+    if (promptAddDesignPattern) {
+        stackConfig.designPattern = await promptUser({
+            name: 'designPattern',
+            message: `${frameupColors.inputMessage('Select a design pattern to use:')}`,
+            initial: chalk.dim('Use arrow-keys. Enter to submit.'),
+            choices: designPatternChoices.map(designPattern => ({
+                name: designPattern.name,
+                message: designPattern.color(designPattern.name),
+                value: designPattern.name
+            })),
+            result(name) {
+                return this.choices.find(choice => choice.name === name).value;
+            },
+            format(input) {
+                const selected = designPatternChoices.find(d => d.name === input);
+                return selected ? selected.color(input) : input;
+            }
+        })
+    }
+
+    // stackConfig.designPattern = await promptUser({
+    //     name: 'designPattern',
+    //     message: `Select a design pattern to use: ${chalk.dim('(Use arrow keys)')}`,
+    //     choices: designPatternChoices.map(designPattern => ({
+    //         name: designPattern.name,
+    //         message: designPattern.color(designPattern.name),
+    //         value: designPattern.name
+    //     })),
+    //     result(name) {
+    //         return this.choices.find(choice => choice.name === name).value;
+    //     },
+    //     format(input) {
+    //         const selected = designPatternChoices.find(d => d.name === input);
+    //         return selected ? selected.color(input) : input;
+    //     }
+    // })
 
     // Ask about the database type to use (SQL or NoSQL)
     const databaseType = await promptUser({
