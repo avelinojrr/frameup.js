@@ -1,3 +1,4 @@
+import { frameupColors } from "../utils/colors.js";
 import chalk from "chalk";
 import pkg from "enquirer";
 const {
@@ -32,14 +33,15 @@ export async function getStackConfig() {
     const stackConfig = {};
 
     // Ask about the project name
-    const {projectName} = await prompt([
-        {
-            type: 'input',
-            name: 'projectName',
-            message: 'Enter the name of your project:',
-            initial: 'my-project'
+    const { projectName } = await prompt({
+        type: 'input',
+        name: 'projectName',
+        message: frameupColors.inputMessage('Enter the name of your project:'),
+        async format(input) {
+            return input.trim() ? frameupColors.inputResponse(input) : frameupColors.inputResponse('frameup-project');
         }
-    ]);
+    })
+    
     stackConfig.projectName = projectName;
 
     // Ask about the language
