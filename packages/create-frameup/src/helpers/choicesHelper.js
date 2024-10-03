@@ -4,11 +4,12 @@
  */
 
 import chalk from 'chalk';
+import { frameupColors } from '../utils/colors.js';
 
 // Language choices
 export const languagesChoices = [
     { name: 'JavaScript', color: chalk.yellow.bold },
-    { name: 'TypeScript', color: chalk.blue.bold }
+    { name: 'TypeScript', color: chalk.hex('#017ACB').bold}
 ]
 
 // Framework choices
@@ -23,33 +24,33 @@ export const frameworksChoices = [
 
 // Architecture choices
 export const architectureChoices = [
-    {'name': 'Monolithic Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Microservices Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Serverless Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Event-Driven Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'MVC', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Hexagonal Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Clean Architecture', 'color': chalk.hex('#FF3E00')}, 
+    {'name': 'Monolithic Architecture', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Microservices Architecture', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Serverless Architecture', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Event-Driven Architecture', 'color': chalk.whiteBright.bold}, 
+    {'name': 'MVC', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Hexagonal Architecture', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Clean Architecture', 'color': chalk.whiteBright.bold}, 
 ]
 
 // Design pattern choices
 export const designPatternChoices = [
-    {'name': 'Observer', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Facade', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Adapter', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Saga', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'API Gateway', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Event Sourcing', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Dependency Injection', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Factory', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Singleton', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Strategy', 'color': chalk.hex('#FF3E00')}, 
+    {'name': 'Observer', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Facade', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Adapter', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Saga', 'color': chalk.whiteBright.bold}, 
+    {'name': 'API Gateway', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Event Sourcing', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Dependency Injection', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Factory', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Singleton', 'color': chalk.whiteBright.bold}, 
+    {'name': 'Strategy', 'color': chalk.whiteBright.bold}, 
 ]
 
 // Database choices
 export const sqlDatabaseChoice = [
-    {'name': 'PostgreSQL', 'color': chalk.hex('#336791')},
-    {'name': 'MySQL', 'color': chalk.hex('#00758F')},
+    {'name': 'PostgreSQL', 'color': chalk.hex('#336791').bold},
+    {'name': 'MySQL', 'color': chalk.hex('#00546B').bold},
     {'name': 'SQLite', 'color': chalk.hex('#003B57')},
     {'name': 'MariaDB', 'color': chalk.hex('#003545')},
     {'name': 'Oracle', 'color': chalk.hex('#F80000')},
@@ -57,7 +58,7 @@ export const sqlDatabaseChoice = [
 ]
 
 export const noSqlDatabaseChoice = [
-    {'name': 'MongoDB', 'color': chalk.hex('#4DB33D')},
+    {'name': 'MongoDB', 'color': chalk.hex('#599636', '#6CAC48').bold},
     {'name': 'Cassandra', 'color': chalk.hex('#1287B1')},
     {'name': 'CouchDB', 'color': chalk.hex('#D4A635')},
     {'name': 'Firebase', 'color': chalk.hex('#FFA611')},
@@ -89,12 +90,9 @@ export const databaseConnectors = [
 
 // Tools choices
 export const toolsChoices = [
-    {'name': 'Docker', 'color': chalk.hex('#FF3E00')}, 
+    {'name': 'Docker', 'color': chalk.hex('#2496ED').bold}, 
     {'name': 'GitHub Actions', 'color': chalk.hex('#FF3E00')}, 
     {'name': 'Jest', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Mocha', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Chai', 'color': chalk.hex('#FF3E00')},
     {'name': 'ESlint', 'color': chalk.hex('#FF3E00')},
     {'name': 'Prettier', 'color': chalk.hex('#FF3E00')},
-    {'name': 'Husky', 'color': chalk.hex('#FF3E00')},
 ]
