@@ -4,9 +4,9 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "jest",
 		"start": "node index.js",
-		"lint": "eslint .",
+		"lint": "eslint . --ext .js",
 		"prettier-check": "prettier --check .",
 		"prettier-fix": "prettier --write .",
 		"prepare": "husky"
