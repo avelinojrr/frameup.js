@@ -25,4 +25,19 @@ export const frameupColors = {
     cassandraColor: chalk.hex('#1287B1'),
     couchDbColor: chalk.hex('#D4A635'),
     firebaseColor: chalk.hex('#FFA611'),
+
+    // Database Types Colors
+    sqlColor: chalk.hex('#1E90FF'),
+    noSqlColor: chalk.hex('#FF5722'),
+    inMemoryColor: chalk.hex('#4CAF50'),
+    graphColor: chalk.hex('#9C27B0'),
+
+    // ORMs & ODMs Colors
+    sequelizeColor: chalk.hex('#52B0E7'),
+    typeOrmColor: chalk.hex('#E83524'),
+    prismaColor: chalk.hex('#0C344B'),
+    objectionsColor: chalk.hex('#4B5562'),
+    bookshelfColor: chalk.hex('#3F3F3F'),
+    mongooseColor: chalk.hex('#880000'),
+    typegooseColor: chalk.hex('#475569'),
 }

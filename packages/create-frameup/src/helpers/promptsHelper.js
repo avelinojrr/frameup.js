@@ -9,13 +9,13 @@ const {
 } = pkg;
 
 import {
-    languagesChoices,
     frameworksChoices,
     architectureChoices,
     designPatternChoices,
     sqlDatabaseChoice,
     noSqlDatabaseChoice,
     databaseTypesChoice,
+    databaseConnectors,
     toolsChoices
 } from "./choicesHelper.js";
 
@@ -47,29 +47,10 @@ export async function getStackConfig() {
 
     stackConfig.projectName = projectName;
 
-    // Ask about the language
-    stackConfig.language = await promptUser({
-        name: 'language',
-        message: `${frameupColors.inputColor('Select a language to use:')}`,
-        initial: chalk.dim('Use arrow-keys. Enter to submit.'),
-        choices: languagesChoices.map(lang => ({
-            name: lang.name,
-            message: lang.color(lang.name),
-            value: lang.name
-        })),
-        result(name) {
-            return this.choices.find(choice => choice.name === name).value;
-        },
-        format(input) {
-            const selected = languagesChoices.find(l => l.name === input);
-            return selected ? selected.color(input) : input;
-        }
-    })
-
     // Ask about the framework
     stackConfig.framework = await promptUser({
         name: 'framework',
-        message: `${frameupColors.inputColor('Select a framework to use:')}`,
+        message: `${frameupColors.inputColor('Select the Nodejs framework you want to use:')}`,
         initial: chalk.dim('Use arrow-keys. Enter to submit.'),
         choices: frameworksChoices.map(framework => ({
             name: framework.name,
@@ -198,6 +179,44 @@ export async function getStackConfig() {
         });
 
         stackConfig.database = selectedDatabase;
+
+        // Ask about the database connector
+
+        const connectors = await prompt({
+            type: 'confirm',
+            name: 'dbConnectors',
+            message: frameupColors.inputColor('Would you like to add a database connector?'),
+            initial: true,
+            format(input) {
+                return input ? frameupColors.outputColor('Yes') : frameupColors.outputColor('No');
+            }
+        })
+
+        if (connectors.dbConnectors) {
+
+            const ormChoices = databaseType === 'SQL'
+                ? databaseConnectors[0]['ORMs']
+                : databaseConnectors[0]['ODMs'];
+            
+            const selectedORM = await promptUser({
+                name: 'orm',
+                message: frameupColors.inputColor(`Select an ORM/ODM for your ${databaseType} database:`),
+                choices: ormChoices.map(orm => ({
+                    name: orm.name,
+                    message: orm.color(orm.name),
+                    value: orm.name
+                })),
+                result(name) {
+                    return this.choices.find(choice => choice.name === name).value;
+                },
+                format(input) {
+                    const selected = ormChoices.find(o => o.name === input);
+                    return selected ? selected.color(input) : input;
+                }
+            });
+    
+            stackConfig.orm = selectedORM;
+        }
     }
 
     // Ask about the tools
@@ -235,11 +254,10 @@ export async function getStackConfig() {
             }
         });
 
-        stackConfig.tools = selectedTools ? selectedTools : []; // Set the selected tools or an empty array
+        stackConfig.tools = selectedTools ? selectedTools : [];
     } else {
         stackConfig.tools = [];
     }
 
-    // Return the stack configuration
     return stackConfig;
 }
