@@ -1,26 +1,43 @@
 {
-  "name": "frameupjs",
-  "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon packages/create-frameup/bin/frameup.js"
-  },
-  "bin": {
-    "frameup": "packages/create-frameup/bin/frameup.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "chalk": "5.3.0",
-    "commander": "12.1.0",
-    "enquirer": "^2.4.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.7"
-  }
+	"name": "frameupjs",
+	"version": "1.0.0",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node index.js",
+		"lint": "eslint .",
+		"prettier-check": "prettier --check .",
+		"prettier-fix": "prettier --write .",
+		"prepare": "husky"
+	},
+	"bin": {
+		"frameup": "packages/create-frameup/bin/frameup.js"
+	},
+	"lint-staged": {
+		"*.js": [
+			"eslint --fix",
+			"prettier --write"
+		]
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"chalk": "5.3.0",
+		"commander": "12.1.0",
+		"enquirer": "2.4.1"
+	},
+	"devDependencies": {
+		"@eslint/js": "9.11.1",
+		"eslint": "9.11.1",
+		"eslint-config-prettier": "9.1.0",
+		"eslint-plugin-prettier": "5.2.1",
+		"globals": "15.10.0",
+		"husky": "9.1.6",
+		"lint-staged": "15.2.10",
+		"nodemon": "3.1.7",
+		"prettier": "3.3.3"
+	}
 }
