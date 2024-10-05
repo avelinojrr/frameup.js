@@ -9,10 +9,7 @@ updates:
     ignore:
       - dependency-name: "eslint"
         versions: ["<8.0.0"]
-    allow:
-      - dependency-type: "all"
-    security-updates-only: true
-
+        
   #Update Github Actions
   - package-ecosystem: "github-actions"
     directory: "/"
