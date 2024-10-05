@@ -12,6 +12,7 @@ import {
 	databaseTypesChoice,
 	databaseConnectors,
 	toolsChoices,
+	packageManagers,
 } from './choicesHelper.js';
 
 // Helper function to execute a prompts
@@ -293,6 +294,26 @@ export async function getStackConfig() {
 	} else {
 		stackConfig.tools = [];
 	}
+
+	// Package Managers
+	stackConfig.packageManager = await promptUser({
+		name: 'packageManager',
+		message: frameupColors.inputColor(
+			'Which package manager would you like to use for installation?'
+		),
+		choices: packageManagers.map((pm) => ({
+			name: pm.name,
+			message: pm.color(pm.name),
+			value: pm.name,
+		})),
+		result(name) {
+			return this.choices.find((choice) => choice.name === name).value;
+		},
+		format(input) {
+			const selected = packageManagers.find((pm) => pm.name === input);
+			return selected ? selected.color(input) : input;
+		},
+	});
 
 	return stackConfig;
 }

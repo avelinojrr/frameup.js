@@ -90,3 +90,10 @@ export const toolsChoices = [
 	{ name: 'ESlint', color: chalk.hex('#4B32C3') },
 	{ name: 'Prettier', color: chalk.hex('#F7B93E') },
 ];
+
+// Package Manager
+export const packageManagers = [
+	{ name: 'npm', color: frameupColors.outputColor },
+	{ name: 'yarn', color: frameupColors.outputColor },
+	{ name: 'pnpm', color: frameupColors.outputColor },
+];
