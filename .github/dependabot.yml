@@ -1,0 +1,20 @@
+version: 2
+updates:
+  # Update dependencies of npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: "eslint"
+        versions: ["<8.0.0"]
+    allow:
+      - dependency-type: "all"
+    security-updates-only: true
+
+  #Update Github Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
