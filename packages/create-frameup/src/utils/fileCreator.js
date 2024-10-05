@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-
+import { createMonolithicStructure } from './monolithicStructure.js';
 /**
  * Create a file with the given content
  */
@@ -8,16 +8,12 @@ import path from 'path';
 export async function createFilesFromTemplate(template, projectName) {
 	const projectPath = path.join(process.cwd(), projectName);
 
-	// Create the project directory
-	if (!fs.existsSync(projectPath)) {
-		fs.mkdirSync(projectPath);
-	}
+	createMonolithicStructure(projectPath);
 
-	// Iterate over the template and copy the files
+	// Iterar sobre las plantillas y copiar archivos
 	for (const file of template.files) {
 		let destinationPath = path.join(projectPath, file.path);
 
-		// Verified if is a file of database and move to `src/database` folder
 		if (file.path.includes('db.js')) {
 			destinationPath = path.join(
 				projectPath,
@@ -27,12 +23,8 @@ export async function createFilesFromTemplate(template, projectName) {
 			);
 		}
 
-		// Create the directory if it doesn't exist
 		fs.mkdirSync(path.dirname(destinationPath), { recursive: true });
-
-		// Write the file content
 		fs.writeFileSync(destinationPath, file.content);
 	}
-
-	console.log(`Files created at ${projectPath}`);
+	console.log(`Project files created in: ${projectPath}`);
 }

@@ -4,6 +4,11 @@ export const frameupColors = {
 	inputColor: chalk.hex('#CFD8DC'),
 	outputColor: chalk.hex('#FAFAFA'),
 
+	// Lenguajes Colors
+	jsColor: chalk.hex('#F0DB4F'),
+	tsColor: chalk.hex('#007ACC'),
+	nodeColor: chalk.hex('#83CD29'),
+
 	// Framework Nodejs Colors
 	expressJsColor: chalk.hex('#FAFAFA'),
 	koaJsColor: chalk.hex('#6e6f70'),

@@ -32,9 +32,9 @@ export async function generateScaffolding(config) {
 	const mappedLanguage = languageMap[language];
 	const mappedDb = dbMap[database]; // Map database selection
 
-	if (!mappedArchitecture || !mappedLanguage || !mappedDb) {
+	if (!mappedArchitecture || mappedLanguage || !mappedDb) {
 		throw new Error(
-			`Invalid configuration: Architecture: ${architecture}, Language: ${language}, Database: ${database}`
+			`Invalid configuration: Architecture: ${architecture}, Language: ${language} ,Database: ${database}`
 		);
 	}
 
@@ -44,8 +44,7 @@ export async function generateScaffolding(config) {
 		'packages',
 		'create-frameup',
 		'templates',
-		mappedArchitecture,
-		mappedLanguage
+		mappedArchitecture
 	);
 
 	// Define the path of the db.js file from the selected database
