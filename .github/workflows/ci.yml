@@ -2,33 +2,32 @@ name: CI Pipeline
 
 # Triggers the workflow on push or pull request events
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      # Checks out your repository under $GITHUB_WORKSPACE
-      - name: Checkout repository
-        uses: actions/checkout@v3
+        steps:
+            # Checks out your repository under $GITHUB_WORKSPACE
+            - name: Checkout repository
+              uses: actions/checkout@v3
 
-      # Set up Node.js environment
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+            # Set up Node.js environment
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
 
-      # Install dependencies
-      - name: Install dependencies
-        run: npm install
+            # Install dependencies
+            - name: Install dependencies
+              run: npm install
 
-      # Lint the code
-      - name: Run ESLint
-        run: npm run lint
-
+            # Lint the code
+            - name: Run ESLint
+              run: npm run lint

@@ -26,6 +26,40 @@ async function promptUser(promptConfig) {
 	}
 }
 
+async function promptConfirm(message, initial = true) {
+	const { confirmed } = await prompt({
+		type: 'confirm',
+		name: 'confirmed',
+		message: frameupColors.inputColor(message),
+		initial,
+		format(input) {
+			return input
+				? frameupColors.outputColor('Yes')
+				: frameupColors.outputColor('No');
+		},
+	});
+	return confirmed;
+}
+
+async function promptSelect(name, message, choices) {
+	return await promptUser({
+		name,
+		message: frameupColors.inputColor(message),
+		choices: choices.map((choice) => ({
+			name: choice.name,
+			message: choice.color(choice.name),
+			value: choice.name,
+		})),
+		result(name) {
+			return this.choices.find((choice) => choice.name === name).value;
+		},
+		format(input) {
+			const selected = choices.find((choice) => choice.name === input);
+			return selected ? selected.color(input) : input;
+		},
+	});
+}
+
 export async function getStackConfig() {
 	const stackConfig = {};
 
@@ -40,226 +74,67 @@ export async function getStackConfig() {
 				: frameupColors.outputColor('frameup-project');
 		},
 	});
-
 	stackConfig.projectName = projectName;
 
 	// Ask about the framework
-	stackConfig.framework = await promptUser({
-		name: 'framework',
-		message: `${frameupColors.inputColor('Select the Nodejs framework you want to use:')}`,
-		initial: chalk.dim('Use arrow-keys. Enter to submit.'),
-		choices: frameworksChoices.map((framework) => ({
-			name: framework.name,
-			message: framework.color(framework.name),
-			value: framework.name,
-		})),
-		result(name) {
-			return this.choices.find((choice) => choice.name === name).value;
-		},
-		format(input) {
-			const selected = frameworksChoices.find((f) => f.name === input);
-			return selected ? selected.color(input) : input;
-		},
-	});
+	stackConfig.framework = await promptSelect(
+		'framework',
+		'Select the Nodejs framework you want to use:',
+		frameworksChoices
+	);
 
-	// Ask if developer wants added a architecture
-	const { promptAddArchitecture } = await prompt({
-		type: 'confirm',
-		name: 'promptAddArchitecture',
-		message: frameupColors.inputColor(
-			'Would you like to add an architecture?'
-		),
-		initial: true,
-		format(input) {
-			return input
-				? frameupColors.outputColor('Yes')
-				: frameupColors.outputColor('No');
-		},
-	});
-
-	if (promptAddArchitecture) {
-		// Ask about the architecture
-		stackConfig.architecture = await promptUser({
-			name: 'architecture',
-			message: `${frameupColors.inputColor('Select an architecture to use:')}`,
-			choices: architectureChoices.map((architecture) => ({
-				name: architecture.name,
-				message: architecture.color(architecture.name),
-				value: architecture.name,
-			})),
-			result(name) {
-				return this.choices.find((choice) => choice.name === name)
-					.value;
-			},
-			format(input) {
-				const selected = architectureChoices.find(
-					(a) => a.name === input
-				);
-				return selected ? selected.color(input) : input;
-			},
-		});
+	// Ask if developer wants to add an architecture
+	if (await promptConfirm('Would you like to add an architecture?')) {
+		stackConfig.architecture = await promptSelect(
+			'architecture',
+			'Select an architecture to use:',
+			architectureChoices
+		);
 	}
 
-	const { promptAddDesignPattern } = await prompt({
-		type: 'confirm',
-		name: 'promptAddDesignPattern',
-		message: frameupColors.inputColor(
-			'Would you like to add a design pattern?'
-		),
-		initial: true,
-		format(input) {
-			return input
-				? frameupColors.outputColor('Yes')
-				: frameupColors.outputColor('No');
-		},
-	});
-
-	if (promptAddDesignPattern) {
-		stackConfig.designPattern = await promptUser({
-			name: 'designPattern',
-			message: `${frameupColors.inputColor('Select a design pattern to use:')}`,
-			initial: chalk.dim('Use arrow-keys. Enter to submit.'),
-			choices: designPatternChoices.map((designPattern) => ({
-				name: designPattern.name,
-				message: designPattern.color(designPattern.name),
-				value: designPattern.name,
-			})),
-			result(name) {
-				return this.choices.find((choice) => choice.name === name)
-					.value;
-			},
-			format(input) {
-				const selected = designPatternChoices.find(
-					(d) => d.name === input
-				);
-				return selected ? selected.color(input) : input;
-			},
-		});
+	// Ask if developer wants to add a design pattern
+	if (await promptConfirm('Would you like to add a design pattern?')) {
+		stackConfig.designPattern = await promptSelect(
+			'designPattern',
+			'Select a design pattern to use:',
+			designPatternChoices
+		);
 	}
 
-	const confirmDatabase = await prompt({
-		type: 'confirm',
-		name: 'confirmDatabase',
-		message: frameupColors.inputColor('Would you like to add a database?'),
-		initial: true,
-		format(input) {
-			return input
-				? frameupColors.outputColor('Yes')
-				: frameupColors.outputColor('No');
-		},
-	});
-
-	if (confirmDatabase) {
-		// Ask about the database type to use (SQL or NoSQL)
-		const databaseType = await promptUser({
-			name: 'databaseType',
-			message: frameupColors.inputColor(
-				'Select a database type (SQL or NoSQL):'
-			),
-			choices: databaseTypesChoice.map((dbType) => ({
-				name: dbType.name,
-				message: dbType.color(dbType.name),
-				value: dbType.name,
-			})),
-			result(name) {
-				return this.choices.find((choice) => choice.name === name)
-					.value;
-			},
-			format(input) {
-				const selected = databaseTypesChoice.find(
-					(d) => d.name === input
-				);
-				return selected ? selected.color(input) : input;
-			},
-		});
-
-		let databaseChoices =
+	// Ask if developer wants to add a database
+	if (await promptConfirm('Would you like to add a database?')) {
+		const databaseType = await promptSelect(
+			'databaseType',
+			'Select a database type:',
+			databaseTypesChoice
+		);
+		const databaseChoices =
 			databaseType === 'SQL' ? sqlDatabaseChoice : noSqlDatabaseChoice;
-		const selectedDatabase = await promptUser({
-			name: 'database',
-			message: frameupColors.inputColor(
-				`Select a ${databaseType} database:`
-			),
-			choices: databaseChoices.map((db) => ({
-				name: db.name,
-				message: db.color(db.name),
-				value: db.name,
-			})),
-			result(name) {
-				return this.choices.find((choice) => choice.name === name)
-					.value;
-			},
-			format(input) {
-				const selected = databaseChoices.find((d) => d.name === input);
-				return selected ? selected.color(input) : input;
-			},
-		});
+		stackConfig.database = await promptSelect(
+			'database',
+			`Select a ${databaseType} database:`,
+			databaseChoices
+		);
 
-		stackConfig.database = selectedDatabase;
-
-		// Ask about the database connector
-
-		const connectors = await prompt({
-			type: 'confirm',
-			name: 'dbConnectors',
-			message: frameupColors.inputColor(
-				'Would you like to add a database connector?'
-			),
-			initial: true,
-			format(input) {
-				return input
-					? frameupColors.outputColor('Yes')
-					: frameupColors.outputColor('No');
-			},
-		});
-
-		if (connectors.dbConnectors) {
+		// Ask if developer wants to add a database connector
+		if (
+			await promptConfirm('Would you like to add a database connector?')
+		) {
 			const ormChoices =
 				databaseType === 'SQL'
 					? databaseConnectors[0]['ORMs']
 					: databaseConnectors[0]['ODMs'];
-
-			const selectedORM = await promptUser({
-				name: 'orm',
-				message: frameupColors.inputColor(
-					`Select an ORM/ODM for your ${databaseType} database:`
-				),
-				choices: ormChoices.map((orm) => ({
-					name: orm.name,
-					message: orm.color(orm.name),
-					value: orm.name,
-				})),
-				result(name) {
-					return this.choices.find((choice) => choice.name === name)
-						.value;
-				},
-				format(input) {
-					const selected = ormChoices.find((o) => o.name === input);
-					return selected ? selected.color(input) : input;
-				},
-			});
-
-			stackConfig.orm = selectedORM;
+			stackConfig.orm = await promptSelect(
+				'orm',
+				`Select an ORM/ODM for your ${databaseType} database:`,
+				ormChoices
+			);
 		}
 	}
 
-	// Ask about the tools
-	const confirmTools = await prompt({
-		type: 'confirm',
-		name: 'addTools',
-		message: frameupColors.inputColor(
-			'Would you like to add some support tools?'
-		),
-		initial: true,
-		format(input) {
-			return input
-				? frameupColors.outputColor('Yes')
-				: frameupColors.outputColor('No');
-		},
-	});
-
-	if (confirmTools.addTools) {
-		const selectedTools = await prompt({
+	// Ask if developer wants to add support tools
+	if (await promptConfirm('Would you like to add some support tools?')) {
+		const { tools } = await prompt({
 			type: 'multiselect',
 			name: 'tools',
 			message: frameupColors.inputColor(
@@ -289,31 +164,17 @@ export async function getStackConfig() {
 				return selected.map((tool) => tool.color(tool.name)).join(', ');
 			},
 		});
-
-		stackConfig.tools = selectedTools ? selectedTools : [];
+		stackConfig.tools = tools;
 	} else {
 		stackConfig.tools = [];
 	}
 
-	// Package Managers
-	stackConfig.packageManager = await promptUser({
-		name: 'packageManager',
-		message: frameupColors.inputColor(
-			'Which package manager would you like to use for installation?'
-		),
-		choices: packageManagers.map((pm) => ({
-			name: pm.name,
-			message: pm.color(pm.name),
-			value: pm.name,
-		})),
-		result(name) {
-			return this.choices.find((choice) => choice.name === name).value;
-		},
-		format(input) {
-			const selected = packageManagers.find((pm) => pm.name === input);
-			return selected ? selected.color(input) : input;
-		},
-	});
+	// Ask about the package manager
+	stackConfig.packageManager = await promptSelect(
+		'packageManager',
+		'Which package manager would you like to use for installation?',
+		packageManagers
+	);
 
 	return stackConfig;
 }
