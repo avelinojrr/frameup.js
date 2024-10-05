@@ -4,97 +4,89 @@
  */
 
 import chalk from 'chalk';
+import { frameupColors } from '../utils/colors.js';
 
-// Language choices
-export const languagesChoices = [
-    { name: 'JavaScript', color: chalk.yellow },
-    { name: 'TypeScript', color: chalk.blue }
-]
-
-// Framework choices
+// Nodejs Framework choices
 export const frameworksChoices = [
-    {'name': 'Express.js', 'color': chalk.whiteBright}, 
-    {'name': 'Koa.js', 'color': chalk.hex('#6e6f70')}, 
-    {'name': 'Hapi.js', 'color': chalk.hex('#ff9200')}, 
-    {'name': 'Meteor.js', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'NestJS', 'color': chalk.redBright}, 
-    {'name': 'AdonisJS', 'color': chalk.hex('#2200FF')},
-]
+	{ name: 'Express.js', color: frameupColors.expressJsColor },
+	{ name: 'Koa.js', color: frameupColors.koaJsColor },
+	{ name: 'Hapi.js', color: frameupColors.hapiJsColor },
+	{ name: 'Meteor.js', color: frameupColors.meteorJsColor },
+	{ name: 'NestJS', color: frameupColors.nestJsColor },
+	{ name: 'AdonisJS', color: frameupColors.adonisJsColor },
+];
 
 // Architecture choices
 export const architectureChoices = [
-    {'name': 'Monolithic Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Microservices Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Serverless Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Event-Driven Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'MVC', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Hexagonal Architecture', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Clean Architecture', 'color': chalk.hex('#FF3E00')}, 
-]
+	{ name: 'Monolithic Architecture', color: frameupColors.outputColor },
+	{ name: 'Microservices Architecture', color: frameupColors.outputColor },
+	{ name: 'Serverless Architecture', color: frameupColors.outputColor },
+	{ name: 'Event-Driven Architecture', color: frameupColors.outputColor },
+	{ name: 'MVC', color: frameupColors.outputColor },
+	{ name: 'Hexagonal Architecture', color: frameupColors.outputColor },
+	{ name: 'Clean Architecture', color: frameupColors.outputColor },
+];
 
 // Design pattern choices
 export const designPatternChoices = [
-    {'name': 'Observer', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Facade', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Adapter', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Saga', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'API Gateway', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Event Sourcing', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Dependency Injection', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Factory', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Singleton', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Strategy', 'color': chalk.hex('#FF3E00')}, 
-]
+	{ name: 'Observer', color: frameupColors.outputColor },
+	{ name: 'Facade', color: frameupColors.outputColor },
+	{ name: 'Adapter', color: frameupColors.outputColor },
+	{ name: 'Saga', color: frameupColors.outputColor },
+	{ name: 'API Gateway', color: frameupColors.outputColor },
+	{ name: 'Event Sourcing', color: frameupColors.outputColor },
+	{ name: 'Dependency Injection', color: frameupColors.outputColor },
+	{ name: 'Factory', color: frameupColors.outputColor },
+	{ name: 'Singleton', color: frameupColors.outputColor },
+	{ name: 'Strategy', color: frameupColors.outputColor },
+];
 
 // Database choices
 export const sqlDatabaseChoice = [
-    {'name': 'PostgreSQL', 'color': chalk.hex('#336791')},
-    {'name': 'MySQL', 'color': chalk.hex('#00758F')},
-    {'name': 'SQLite', 'color': chalk.hex('#003B57')},
-    {'name': 'MariaDB', 'color': chalk.hex('#003545')},
-    {'name': 'Oracle', 'color': chalk.hex('#F80000')},
-    {'name': 'SQL Server', 'color': chalk.hex('#CC2927')},
-]
+	{ name: 'PostgreSQL', color: frameupColors.postgresColor },
+	{ name: 'MySQL', color: frameupColors.mysqlColor },
+	{ name: 'SQLite', color: frameupColors.sqliteColor },
+	{ name: 'MariaDB', color: frameupColors.mariaDbColor },
+	{ name: 'Oracle', color: frameupColors.oracleColor },
+	{ name: 'SQL Server', color: frameupColors.sqlServerColor },
+];
 
 export const noSqlDatabaseChoice = [
-    {'name': 'MongoDB', 'color': chalk.hex('#4DB33D')},
-    {'name': 'Cassandra', 'color': chalk.hex('#1287B1')},
-    {'name': 'CouchDB', 'color': chalk.hex('#D4A635')},
-    {'name': 'Firebase', 'color': chalk.hex('#FFA611')},
-]
+	{ name: 'MongoDB', color: frameupColors.mongoDbColor },
+	{ name: 'Cassandra', color: frameupColors.cassandraColor },
+	{ name: 'CouchDB', color: frameupColors.couchDbColor },
+	{ name: 'Firebase', color: frameupColors.firebaseColor },
+];
 
 export const databaseTypesChoice = [
-    {'name': 'SQL', 'color': chalk.hex('#336791')},
-    {'name': 'NoSQL', 'color': chalk.hex('#4DB33D')},
-    {'name': 'In-memory', 'color': chalk.hex('#FF3E00')},
-    {'name': 'Graph', 'color': chalk.hex('#FF3E00')},
-]
+	{ name: 'SQL', color: frameupColors.sqlColor },
+	{ name: 'NoSQL', color: frameupColors.noSqlColor },
+	{ name: 'In-memory', color: frameupColors.inMemoryColor },
+	{ name: 'Graph', color: frameupColors.graphColor },
+];
 
 // Database ORMs & ODMs choices
 export const databaseConnectors = [
-    {
-        'ORMs' : [
-            {'name': 'Sequelize', 'color': chalk.hex('#FF3E00')}, 
-            {'name': 'TypeORM', 'color': chalk.hex('#FF3E00')}, 
-            {'name': 'Prisma', 'color': chalk.hex('#FF3E00')}, 
-            {'name': 'Objections.js', 'color': chalk.hex('#FF3E00')}, 
-            {'name': 'Bookshelf.js', 'color': chalk.hex('#FF3E00')}, 
-        ],
-        'ODMs' : [
-            {'name': 'Mongoose', 'color': chalk.hex('#FF3E00')}, 
-            {'name': 'Typegoose', 'color': chalk.hex('#FF3E00')}, 
-        ]
-    }
-]
+	{
+		ORMs: [
+			{ name: 'Sequelize', color: frameupColors.sequelizeColor },
+			{ name: 'TypeORM', color: frameupColors.typeOrmColor },
+			{ name: 'Prisma', color: frameupColors.prismaColor },
+			{ name: 'Objections.js', color: frameupColors.objectionsColor },
+			{ name: 'Bookshelf.js', color: frameupColors.bookshelfColor },
+		],
+		ODMs: [
+			{ name: 'Mongoose', color: frameupColors.mongooseColor },
+			{ name: 'Typegoose', color: frameupColors.typegooseColor },
+		],
+	},
+];
 
 // Tools choices
 export const toolsChoices = [
-    {'name': 'Docker', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'GitHub Actions', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Jest', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Mocha', 'color': chalk.hex('#FF3E00')}, 
-    {'name': 'Chai', 'color': chalk.hex('#FF3E00')},
-    {'name': 'ESlint', 'color': chalk.hex('#FF3E00')},
-    {'name': 'Prettier', 'color': chalk.hex('#FF3E00')},
-    {'name': 'Husky', 'color': chalk.hex('#FF3E00')},
-]
+	{ name: 'Docker', color: chalk.hex('#2496ED') },
+	{ name: 'GitHub Actions', color: chalk.hex('#2088FF') },
+	{ name: 'Jest', color: chalk.hex('#C21325') },
+	{ name: 'ESlint', color: chalk.hex('#4B32C3') },
+	{ name: 'Prettier', color: chalk.hex('#F7B93E') },
+];
