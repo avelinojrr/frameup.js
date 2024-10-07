@@ -1,11 +1,11 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 
 /**
  * Create a monolithic structure for the given architecture and language.
  */
 
-export function createMonolithicStructure(projectPath) {
+export async function createMonolithicStructure(projectPath) {
 	const folders = [
 		'src',
 		'src/config',
@@ -19,14 +19,20 @@ export function createMonolithicStructure(projectPath) {
 		'tests',
 	];
 
-	// Creates the folders
-	folders.forEach((folder) => {
-		const folderPath = path.join(projectPath, folder);
-		if (!fs.existsSync(folderPath)) {
-			fs.mkdirSync(folderPath, { recursive: true });
-			console.log(`Created folder: ${folderPath}`);
-		}
-	});
+	try {
+		// Create the folders asynchronously using Promise.all
+
+		await Promise.all(
+			folders.map(async (folder) => {
+				const folderPath = path.join(projectPath, folder);
+				await fs.mkdir(folderPath, { recursive: true });
+				console.log(`Created folder: ${folderPath}`);
+			})
+		);
+	} catch (error) {
+		console.error('Error creating monolithic structure:', error);
+		return;
+	}
 
 	console.log('Monolithic structure created successfully.');
 }

@@ -7,15 +7,9 @@ import chalk from 'chalk';
 import { frameupColors } from '../utils/colors.js';
 
 // Language choices
-export const languageChoices = [
-	{
-		name: `${'JavaScript'} + ${frameupColors.nodeColor('NodeJs')}`,
-		color: frameupColors.jsColor,
-	},
-	{
-		name: `${'TypeScript'} + ${frameupColors.nodeColor('NodeJs')}`,
-		color: frameupColors.tsColor,
-	},
+export const languagesChoices = [
+	{ name: 'JavaScript', color: frameupColors.jsColor },
+	{ name: 'TypeScript', color: frameupColors.tsColor },
 ];
 
 // Nodejs Framework choices
