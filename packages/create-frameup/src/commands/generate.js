@@ -47,7 +47,7 @@ export async function generateScaffolding(config) {
 
 	const createStructure = architectureHandlers[mappedArchitecture];
 	if (createStructure) {
-		createStructure(projectName);
+		createStructure(projectName, mappedDb);
 	} else {
 		throw new Error(`Unsupported architecture: ${architecture}`);
 	}
