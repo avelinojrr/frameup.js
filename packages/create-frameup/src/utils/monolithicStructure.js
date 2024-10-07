@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { copyDatabaseConfig } from './copyDatabaseConfig.js';
+import { copyGenericFiles } from './copyGenericFiles.js';
 
 /**
  * Create a monolithic structure for the given architecture and language.
@@ -33,6 +34,7 @@ export async function createMonolithicStructure(projectPath, database) {
 
 		// Copy the database configuration file
 		await copyDatabaseConfig(database, projectPath);
+		await copyGenericFiles(projectPath);
 	} catch (error) {
 		console.error('Error creating monolithic structure:', error);
 		return;
