@@ -1,35 +1,50 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-export async function copyGenericFiles(projectPath) {
+export async function copyGenericFiles(projectPath, language) {
+	const normalizedLanguage = language.toLowerCase();
+
+	console.log(`Language received: ${language}`);
+	// Define the extension for the language
+	const extensionMap = {
+		javascript: 'js',
+		typescript: 'ts',
+	};
+
+	const fileExtension = extensionMap[normalizedLanguage];
+
+	if (!fileExtension) {
+		throw new Error(`Unsupported language: ${language}`);
+	}
+
 	const filesToCopy = [
 		{
-			src: 'templates/monolithic/js/src/config/config.js',
-			dest: `${projectPath}/src/config/config.js`,
+			src: `templates/monolithic/${fileExtension}/src/config/config.${fileExtension}`,
+			dest: `${projectPath}/src/config/config.${fileExtension}`,
 		},
 		{
-			src: 'templates/monolithic/js/src/models/exampleModel.js',
-			dest: `${projectPath}/src/models/exampleModel.js`,
+			src: `templates/monolithic/${fileExtension}/src/models/exampleModel.${fileExtension}`,
+			dest: `${projectPath}/src/models/exampleModel.${fileExtension}`,
 		},
 		{
-			src: 'templates/monolithic/js/src/controllers/exampleController.js',
-			dest: `${projectPath}/src/controllers/exampleController.js`,
+			src: `templates/monolithic/${fileExtension}/src/controllers/exampleController.${fileExtension}`,
+			dest: `${projectPath}/src/controllers/exampleController.${fileExtension}`,
 		},
 		{
-			src: 'templates/monolithic/js/src/routes/exampleRoute.js',
-			dest: `${projectPath}/src/routes/exampleRoute.js`,
+			src: `templates/monolithic/${fileExtension}/src/routes/exampleRoute.${fileExtension}`,
+			dest: `${projectPath}/src/routes/exampleRoute.${fileExtension}`,
 		},
 		{
-			src: 'templates/monolithic/js/src/services/exampleService.js',
-			dest: `${projectPath}/src/services/exampleService.js`,
+			src: `templates/monolithic/${fileExtension}/src/services/exampleService.${fileExtension}`,
+			dest: `${projectPath}/src/services/exampleService.${fileExtension}`,
 		},
 		{
-			src: 'templates/monolithic/js/src/middlewares/exampleMiddleware.js',
-			dest: `${projectPath}/src/middlewares/exampleMiddleware.js`,
+			src: `templates/monolithic/${fileExtension}/src/middlewares/exampleMiddleware.${fileExtension}`,
+			dest: `${projectPath}/src/middlewares/exampleMiddleware.${fileExtension}`,
 		},
 		{
-			src: 'templates/monolithic/js/tests/example.test.js',
-			dest: `${projectPath}/tests/example.test.js`,
+			src: `templates/monolithic/${fileExtension}/tests/example.test.${fileExtension}`,
+			dest: `${projectPath}/tests/example.test.${fileExtension}`,
 		},
 	];
 

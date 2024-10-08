@@ -7,7 +7,11 @@ import { copyGenericFiles } from './copyGenericFiles.js';
  * Create a monolithic structure for the given architecture and language.
  */
 
-export async function createMonolithicStructure(projectPath, database) {
+export async function createMonolithicStructure(
+	projectPath,
+	database,
+	language
+) {
 	const folders = [
 		'src',
 		'src/config',
@@ -34,7 +38,10 @@ export async function createMonolithicStructure(projectPath, database) {
 
 		// Copy the database configuration file
 		await copyDatabaseConfig(database, projectPath);
-		await copyGenericFiles(projectPath);
+
+		// Llama a la función que copia los archivos genéricos
+		console.log(`Calling copyGenericFiles with language: ${language}`);
+		await copyGenericFiles(projectPath, language);
 	} catch (error) {
 		console.error('Error creating monolithic structure:', error);
 		return;
