@@ -14,8 +14,8 @@ const architectureMap = {
 };
 
 const languageMap = {
-	JavaScript: 'js',
-	TypeScript: 'ts',
+	JavaScript: 'JavaScript',
+	TypeScript: 'TypeScript',
 };
 
 const dbMap = {
@@ -28,7 +28,11 @@ export async function generateScaffolding(config) {
 	const { languages, architecture, projectName, database } = config;
 
 	const mappedArchitecture = architectureMap[architecture];
+
 	const mappedLanguage = languageMap[languages];
+
+	console.log(`Mapped Language: ${mappedLanguage}`);
+
 	const mappedDb = dbMap[database]; // Map database selection
 
 	if (!mappedArchitecture || !mappedLanguage || !mappedDb) {
@@ -47,7 +51,7 @@ export async function generateScaffolding(config) {
 
 	const createStructure = architectureHandlers[mappedArchitecture];
 	if (createStructure) {
-		createStructure(projectName, mappedDb);
+		createStructure(projectName, mappedDb, mappedLanguage);
 	} else {
 		throw new Error(`Unsupported architecture: ${architecture}`);
 	}
