@@ -4,7 +4,6 @@ import path from 'path';
 export async function copyDatabaseConfig(database, projectPath) {
 	const dbName = database.toLowerCase();
 
-	// Construir la ruta correcta usando path.join
 	const templatePath = path.join(
 		process.cwd(),
 		'templates',
