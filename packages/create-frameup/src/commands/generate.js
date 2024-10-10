@@ -5,12 +5,6 @@ import { createMicroservicesStructure } from '../utils/microservicesStructure.js
 // Map the names of architecture and languages to the corresponding folder names
 const architectureMap = {
 	'Monolithic Architecture': 'monolithic',
-	'Microservices Architecture': 'microservices',
-	'Serverless Architecture': 'serverless',
-	'Event-Driven Architecture': 'event-driven',
-	MVC: 'mvc',
-	'Hexagonal Architecture': 'hexagonal',
-	'Clean Architecture': 'clean',
 };
 
 const languageMap = {
@@ -21,23 +15,29 @@ const languageMap = {
 const dbMap = {
 	PostgreSQL: 'postgres',
 	MongoDB: 'mongodb',
-	MySQL: 'mysql',
+};
+
+const designPatternMap = {
+	MVC: 'mvc',
 };
 
 export async function generateScaffolding(config) {
-	const { languages, architecture, projectName, database } = config;
+	const { languages, architecture, projectName, database, designPattern } =
+		config;
 
 	const mappedArchitecture = architectureMap[architecture];
-
 	const mappedLanguage = languageMap[languages];
+	const mappedDb = dbMap[database];
+	const mappedDesignPattern = designPatternMap[designPattern];
 
-	console.log(`Mapped Language: ${mappedLanguage}`);
-
-	const mappedDb = dbMap[database]; // Map database selection
-
-	if (!mappedArchitecture || !mappedLanguage || !mappedDb) {
+	if (
+		!mappedArchitecture ||
+		!mappedLanguage ||
+		!mappedDb ||
+		!mappedDesignPattern
+	) {
 		throw new Error(
-			`Invalid configuration: Architecture: ${architecture}, Language: ${languages} ,Database: ${database}`
+			`Invalid configuration: Architecture: ${architecture}, Language: ${languages} ,Database: ${database}, Design Pattern: ${designPattern}`
 		);
 	}
 
@@ -51,7 +51,12 @@ export async function generateScaffolding(config) {
 
 	const createStructure = architectureHandlers[mappedArchitecture];
 	if (createStructure) {
-		createStructure(projectName, mappedDb, mappedLanguage);
+		createStructure(
+			projectName,
+			mappedDb,
+			mappedLanguage,
+			mappedDesignPattern
+		);
 	} else {
 		throw new Error(`Unsupported architecture: ${architecture}`);
 	}

@@ -1,10 +1,13 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-export async function copyGenericFiles(projectPath, language) {
+export async function copyGenericFiles(projectPath, language, designPattern) {
 	const normalizedLanguage = language.toLowerCase();
 
-	console.log(`Language received: ${language}`);
+	console.log(
+		`Language received: ${language}, Design pattern received: ${designPattern}`
+	);
+
 	// Define the extension for the language
 	const extensionMap = {
 		javascript: 'js',
@@ -17,40 +20,48 @@ export async function copyGenericFiles(projectPath, language) {
 		throw new Error(`Unsupported language: ${language}`);
 	}
 
+	// Base template path now includes the language folder
+	const baseTemplatePath = path.join(
+		'templates',
+		'monolithic',
+		designPattern === 'mvc' ? 'mvc' : fileExtension,
+		fileExtension
+	);
+
 	const filesToCopy = [
 		{
-			src: `templates/monolithic/${fileExtension}/src/config/config.${fileExtension}`,
-			dest: `${projectPath}/src/config/config.${fileExtension}`,
+			src: `src/config/config.${fileExtension}`,
+			dest: `src/config/config.${fileExtension}`,
 		},
 		{
-			src: `templates/monolithic/${fileExtension}/src/models/exampleModel.${fileExtension}`,
-			dest: `${projectPath}/src/models/exampleModel.${fileExtension}`,
+			src: `src/models/exampleModel.${fileExtension}`,
+			dest: `src/models/exampleModel.${fileExtension}`,
 		},
 		{
-			src: `templates/monolithic/${fileExtension}/src/controllers/exampleController.${fileExtension}`,
-			dest: `${projectPath}/src/controllers/exampleController.${fileExtension}`,
+			src: `src/controllers/exampleController.${fileExtension}`,
+			dest: `src/controllers/exampleController.${fileExtension}`,
 		},
 		{
-			src: `templates/monolithic/${fileExtension}/src/routes/exampleRoute.${fileExtension}`,
-			dest: `${projectPath}/src/routes/exampleRoute.${fileExtension}`,
+			src: `src/routes/exampleRoute.${fileExtension}`,
+			dest: `src/routes/exampleRoute.${fileExtension}`,
 		},
 		{
-			src: `templates/monolithic/${fileExtension}/src/services/exampleService.${fileExtension}`,
-			dest: `${projectPath}/src/services/exampleService.${fileExtension}`,
+			src: `src/services/exampleService.${fileExtension}`,
+			dest: `src/services/exampleService.${fileExtension}`,
 		},
 		{
-			src: `templates/monolithic/${fileExtension}/src/middlewares/exampleMiddleware.${fileExtension}`,
-			dest: `${projectPath}/src/middlewares/exampleMiddleware.${fileExtension}`,
+			src: `src/middlewares/exampleMiddleware.${fileExtension}`,
+			dest: `src/middlewares/exampleMiddleware.${fileExtension}`,
 		},
-		{
-			src: `templates/monolithic/${fileExtension}/tests/example.test.${fileExtension}`,
-			dest: `${projectPath}/tests/example.test.${fileExtension}`,
-		},
+		// {
+		// 	src: `tests/example.test.${fileExtension}`,
+		// 	dest: `tests/example.test.${fileExtension}`,
+		// },
 	];
 
 	for (const file of filesToCopy) {
-		const srcPath = path.join(process.cwd(), file.src);
-		const destPath = path.join(file.dest);
+		const srcPath = path.join(process.cwd(), baseTemplatePath, file.src); // Include baseTemplatePath here
+		const destPath = path.join(projectPath, file.dest); // Ensure projectPath is included
 		await fs.copyFile(srcPath, destPath);
 		console.log(`Copied ${srcPath} to ${destPath}`);
 	}
