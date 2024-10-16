@@ -77,11 +77,6 @@ export async function getStackConfig() {
 	});
 	stackConfig.projectName = projectName;
 
-	// Ask about the language
-	// But added nodejs with color to the languagesChoices,
-	// JavaScript + Node.js
-	// TypeScript + Node.js //Included Node.js color
-
 	stackConfig.languages = await promptSelect(
 		'languages',
 		'Select the language you want to use:',

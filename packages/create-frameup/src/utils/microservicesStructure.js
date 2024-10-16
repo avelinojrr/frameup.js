@@ -10,7 +10,7 @@ export function createMicroservicesStructure(projectPath) {
 			folders.map(async (folder) => {
 				const folderPath = path.join(projectPath, folder);
 				await fs.mkdir(folderPath, { recursive: true });
-				console.log(`Created folder: ${folderPath}`);
+				// console.log(`Created folder: ${folderPath}`);
 			})
 		);
 	} catch (error) {

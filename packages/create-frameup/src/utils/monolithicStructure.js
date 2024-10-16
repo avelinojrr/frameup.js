@@ -39,9 +39,6 @@ export async function createMonolithicStructure(
 
 		await copyDatabaseConfig(database, projectPath);
 
-		console.log(
-			`Calling copyGenericFiles with language: ${language} and designPattern: ${designPattern}`
-		);
 		await copyGenericFiles(projectPath, language, designPattern);
 	} catch (error) {
 		console.error('Error creating monolithic structure:', error);
