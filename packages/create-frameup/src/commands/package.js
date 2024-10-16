@@ -41,7 +41,7 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 		main: 'index.js',
 		type: 'module',
 
-		script: {
+		scripts: {
 			start: 'node index.js',
 			dev: 'node --watch index.js',
 		},

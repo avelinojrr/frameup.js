@@ -28,10 +28,13 @@ export function installDependencies(packageManager, projectPath) {
 function getInstallCommand(packageManager) {
 	switch (packageManager) {
 		case 'npm':
+			packageManager = 'npm@10.9.0';
 			return 'npm install';
 		case 'yarn':
+			packageManager = 'yarn@1.22.22';
 			return 'yarn install';
 		case 'pnpm':
+			packageManager = 'pnpm@9.12.2';
 			return 'pnpm install';
 		default:
 			return 'npm install';
