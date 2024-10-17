@@ -14,6 +14,11 @@
 	"bin": {
 		"frameup": "packages/create-frameup/bin/frameup.js"
 	},
+	"files": [
+		"packages/create-frameup/bin",
+		"packages/create-frameup/src",
+		"packages/create-frameup/templates"
+	],
 	"lint-staged": {
 		"*.js": [
 			"eslint --fix",

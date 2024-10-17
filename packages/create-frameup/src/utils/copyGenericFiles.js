@@ -1,5 +1,9 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export async function copyGenericFiles(projectPath, language, designPattern) {
 	const normalizedLanguage = language.toLowerCase();
@@ -22,6 +26,8 @@ export async function copyGenericFiles(projectPath, language, designPattern) {
 
 	// Base template path now includes the language folder
 	const baseTemplatePath = path.join(
+		'..',
+		'..',
 		'templates',
 		'monolithic',
 		designPattern === 'mvc' ? 'mvc' : fileExtension,
@@ -60,7 +66,7 @@ export async function copyGenericFiles(projectPath, language, designPattern) {
 	];
 
 	for (const file of filesToCopy) {
-		const srcPath = path.join(process.cwd(), baseTemplatePath, file.src); // Include baseTemplatePath here
+		const srcPath = path.join(__dirname, baseTemplatePath, file.src); // Include baseTemplatePath here
 		const destPath = path.join(projectPath, file.dest); // Ensure projectPath is included
 		await fs.copyFile(srcPath, destPath);
 		console.log(`Copied ${srcPath} to ${destPath}`);

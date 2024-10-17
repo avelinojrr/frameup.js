@@ -1,11 +1,17 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export async function copyDatabaseConfig(database, projectPath) {
 	const dbName = database.toLowerCase();
 
 	const templatePath = path.join(
-		process.cwd(),
+		__dirname,
+		'..',
+		'..',
 		'templates',
 		'database',
 		dbName,
