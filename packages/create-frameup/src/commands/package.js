@@ -6,7 +6,7 @@ import path from 'path';
  */
 
 export function createPackageJson(config, projectPath, normalizedProjectName) {
-	const { framework, database, orm } = config;
+	const { languages, framework, database, orm } = config;
 
 	const dependencies = {};
 	const devDependencies = {};
@@ -34,17 +34,50 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 		}
 	}
 
+	// Add dependencies for TypeScript
+	if (languages === 'TypeScript') {
+		devDependencies['typescript'] = '^4.4.4'; // TypeScript Version
+		devDependencies['ts-node'] = '^10.4.0'; // TypeScript execution environment for Node
+		devDependencies['@types/node'] = '^16.7.13'; // Node types
+
+		if (dependencies['express']) {
+			devDependencies['@types/express'] = '^4.17.13'; // Express types
+		}
+
+		if (dependencies['pg']) {
+			devDependencies['@types/pg'] = '^8.6.8'; // PostgreSQL types
+		}
+
+		if (dependencies['sequelize']) {
+			devDependencies['@types/sequelize'] = '^4.28.9'; // Sequelize types
+		}
+	}
+
+	const entryPoint =
+		languages === 'TypeScript' ? 'dist/index.js' : 'src/index.js';
+
+	const scripts = {
+		start:
+			languages === 'TypeScript'
+				? 'node dist/index.js'
+				: 'node src/index.js',
+		dev:
+			languages === 'TypeScript'
+				? 'ts-node src/index.ts'
+				: 'nodemon src/index.js',
+	};
+
+	if (languages === 'TypeScript') {
+		scripts.build = 'tsc';
+	}
+
 	const packageJson = {
 		name: normalizedProjectName,
 		version: '1.0.0',
 		description: '',
-		main: 'index.js',
+		main: entryPoint,
 		type: 'module',
-
-		scripts: {
-			start: 'node index.js',
-			dev: 'node --watch index.js',
-		},
+		scripts,
 		keywords: [],
 		author: '',
 		license: 'ISC',
@@ -61,4 +94,31 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 	);
 
 	console.log('Created package.json');
+}
+
+export function createTsConfig(projectPath) {
+	const tsConfig = {
+		compilerOptions: {
+			target: 'ES6',
+			module: 'ES6',
+			outDir: '/dist',
+			rootDir: 'src',
+			strict: true,
+			esModuleInterop: true,
+			skipLibCheck: true,
+			forceConsistentCasingInFileNames: true,
+		},
+		include: ['src/**/*.ts', 'src/**/*.tsx'],
+		exclude: ['node_modules'],
+	};
+
+	const tsConfigContent = JSON.stringify(tsConfig, null, 2);
+
+	fs.writeFileSync(
+		path.join(projectPath, 'tsconfig.json'),
+		tsConfigContent,
+		'utf8'
+	);
+
+	console.log('Created tsconfig.json');
 }

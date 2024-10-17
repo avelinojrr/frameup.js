@@ -9,8 +9,8 @@ import { copyDatabaseConfig } from './copyDatabaseConfig.js';
 
 export async function createMonolithicStructure(
 	projectPath,
-	database
-	// language,
+	database,
+	languages
 	// designPattern
 ) {
 	const folders = [
@@ -37,7 +37,7 @@ export async function createMonolithicStructure(
 			})
 		);
 
-		await copyDatabaseConfig(database, projectPath);
+		await copyDatabaseConfig(database, projectPath, languages);
 
 		// await copyGenericFiles(projectPath, language, designPattern);
 	} catch (error) {

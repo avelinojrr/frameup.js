@@ -3,7 +3,7 @@ import path from 'path';
 import { createMonolithicStructure } from '../utils/monolithicStructure.js';
 import { createMicroservicesStructure } from '../utils/microservicesStructure.js';
 import { installDependencies } from './packageInstaller.js';
-import { createPackageJson } from './package.js';
+import { createPackageJson, createTsConfig } from './package.js';
 
 // Map the names of architecture and languages to the corresponding folder names
 const architectureMap = {
@@ -83,6 +83,10 @@ export async function generateScaffolding(config) {
 	}
 
 	createPackageJson(config, projectPath, normalizedProjectName);
+	// Create tsconfig.json file if the language is TypeScript
+	if (languages === 'TypeScript') {
+		createTsConfig(projectPath);
+	}
 
 	try {
 		await installDependencies(selectedPackageManager, projectPath);

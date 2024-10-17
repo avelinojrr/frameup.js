@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+import { connect, connection } from 'mongoose';
 
-mongoose.connect('mongodb://localhost:27017/your_database', {
+connect('mongodb://localhost:27017/your_database', {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
 
-const db = mongoose.connection;
+const db = connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-module.exports = db;
+export default db;
