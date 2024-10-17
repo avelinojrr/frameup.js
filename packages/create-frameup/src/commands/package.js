@@ -18,7 +18,7 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 	if (database === 'PostgreSQL') {
 		dependencies['pg'] = '^8.7.1';
 	} else if (database === 'MongoDB') {
-		dependencies['mongoose'] = '^6.0.4';
+		dependencies['mongoose'] = '^8.7.0';
 	}
 
 	if (orm) {
@@ -27,29 +27,30 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 		} else if (orm === 'TypeORM') {
 			dependencies['typeorm'] = '^0.2.43';
 		} else if (orm === 'Mongoose') {
-			dependencies['mongoose'] = '^6.0.4';
-		} else if (orm === 'Typegoose') {
-			dependencies['@typegoose/typegoose'] = '^7.4.0';
-			dependencies['mongoose'] = '^6.0.4';
+			dependencies['mongoose'] = '^8.7.0';
 		}
 	}
 
 	// Add dependencies for TypeScript
 	if (languages === 'TypeScript') {
-		devDependencies['typescript'] = '^4.4.4'; // TypeScript Version
-		devDependencies['ts-node'] = '^10.4.0'; // TypeScript execution environment for Node
-		devDependencies['@types/node'] = '^16.7.13'; // Node types
+		devDependencies['typescript'] = '^4.4.4';
+		devDependencies['ts-node'] = '^10.4.0';
+		devDependencies['@types/node'] = '^16.7.13';
 
 		if (dependencies['express']) {
-			devDependencies['@types/express'] = '^4.17.13'; // Express types
+			devDependencies['@types/express'] = '^4.17.13';
 		}
 
 		if (dependencies['pg']) {
-			devDependencies['@types/pg'] = '^8.6.8'; // PostgreSQL types
+			devDependencies['@types/pg'] = '^8.6.8';
 		}
 
 		if (dependencies['sequelize']) {
-			devDependencies['@types/sequelize'] = '^4.28.9'; // Sequelize types
+			devDependencies['@types/sequelize'] = '^4.28.9';
+		}
+
+		if (dependencies['mongoose']) {
+			dependencies['@typegoose/typegoose'] = '^12.8.0';
 		}
 	}
 
@@ -99,9 +100,10 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 export function createTsConfig(projectPath) {
 	const tsConfig = {
 		compilerOptions: {
-			target: 'ES6',
-			module: 'ES6',
-			outDir: '/dist',
+			target: 'ES2023',
+			module: 'NodeNext',
+			moduleResolution: 'NodeNext',
+			outDir: 'dist',
 			rootDir: 'src',
 			strict: true,
 			esModuleInterop: true,

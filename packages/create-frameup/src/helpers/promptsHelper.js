@@ -125,7 +125,9 @@ export async function getStackConfig() {
 
 		// Ask if developer wants to add a database connector
 		if (
-			await promptConfirm('Would you like to add a database connector?')
+			await promptConfirm(
+				'Would you like to add an ORM/ODM for your database?'
+			)
 		) {
 			const ormChoices =
 				databaseType === 'SQL'

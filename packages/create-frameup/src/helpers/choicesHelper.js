@@ -48,10 +48,7 @@ export const databaseConnectors = [
 			{ name: 'Sequelize', color: frameupColors.sequelizeColor },
 			{ name: 'TypeORM', color: frameupColors.typeOrmColor },
 		],
-		ODMs: [
-			{ name: 'Mongoose', color: frameupColors.mongooseColor },
-			{ name: 'Typegoose', color: frameupColors.typegooseColor },
-		],
+		ODMs: [{ name: 'Mongoose', color: frameupColors.mongooseColor }],
 	},
 ];
 
