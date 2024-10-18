@@ -4,6 +4,7 @@ import { createMonolithicStructure } from '../utils/monolithicStructure.js';
 import { createMicroservicesStructure } from '../utils/microservicesStructure.js';
 import { installDependencies } from './packageInstaller.js';
 import { createPackageJson, createTsConfig } from './package.js';
+import { copyToolConfigs } from '../utils/copyToolConfigs.js';
 
 // Map the names of architecture and languages to the corresponding folder names
 const architectureMap = {
@@ -31,6 +32,7 @@ export async function generateScaffolding(config) {
 		projectName,
 		database,
 		designPattern,
+		tools,
 		packageManager,
 	} = config;
 
@@ -54,7 +56,8 @@ export async function generateScaffolding(config) {
 		!selectedPackageManager
 	) {
 		throw new Error(
-			`Invalid configuration: Architecture: ${architecture}, Language: ${languages} ,Database: ${database}, Design Pattern: ${designPattern}, Package Manager: ${packageManager}`
+			`Invalid configuration: Architecture: ${architecture}, Language: ${languages} ,Database: ${database}, 
+			Design Pattern: ${designPattern}, Package Manager: ${packageManager}`
 		);
 	}
 
@@ -82,6 +85,10 @@ export async function generateScaffolding(config) {
 		throw new Error(`Unsupported architecture: ${architecture}`);
 	}
 
+	if (tools && tools.length > 0) {
+		await copyToolConfigs(projectPath, tools);
+	}
+
 	createPackageJson(config, projectPath, normalizedProjectName);
 	// Create tsconfig.json file if the language is TypeScript
 	if (languages === 'TypeScript') {
@@ -96,5 +103,4 @@ export async function generateScaffolding(config) {
 	}
 
 	console.log(`Project files created in: ${projectPath}`);
-	// console.log(`🚀 Project ${projectName} has been successfully created!`);
 }

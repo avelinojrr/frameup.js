@@ -1,11 +1,15 @@
-import { connect, connection } from 'mongoose';
+import mongoose from 'mongoose';
 
-connect('mongodb://localhost:27017/your_database', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
-
-const db = connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-export default db;
+export const mongoConnect = async () => {
+	try {
+		if (process.env.NODE_ENV === 'production') {
+			await mongoose.connect(process.env.MONGO_URL_PRD);
+			console.log('🐘 MongoDB in Production is connected');
+		} else {
+			await mongoose.connect(process.env.MONGO_URL_DEV);
+			console.log('🐘 MongoDB in Development is connected');
+		}
+	} catch (error) {
+		console.error('🐘 MongoDB connection error: ', error);
+	}
+};

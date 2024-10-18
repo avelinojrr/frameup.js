@@ -17,7 +17,8 @@
 	"files": [
 		"packages/create-frameup/bin",
 		"packages/create-frameup/src",
-		"packages/create-frameup/templates"
+		"packages/create-frameup/templates",
+		"packages/create-frameup/templates/tools"
 	],
 	"lint-staged": {
 		"*.js": [

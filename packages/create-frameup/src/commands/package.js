@@ -6,7 +6,7 @@ import path from 'path';
  */
 
 export function createPackageJson(config, projectPath, normalizedProjectName) {
-	const { languages, framework, database, orm } = config;
+	const { languages, framework, database, orm, tools } = config;
 
 	const dependencies = {};
 	const devDependencies = {};
@@ -28,6 +28,32 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 			dependencies['typeorm'] = '^0.2.43';
 		} else if (orm === 'Mongoose') {
 			dependencies['mongoose'] = '^8.7.0';
+		}
+	}
+
+	// Add devDependencies for tools selected
+	if (tools && tools.length > 0) {
+		if (tools.includes('Eslint')) {
+			devDependencies['eslint'] = '^9.11.1';
+			devDependencies['@eslint/js'] = '^9.11.1';
+			devDependencies['globals'] = '^15.10.0';
+			devDependencies['eslint-config-prettier'] = '^9.1.0';
+			devDependencies['eslint-plugin-prettier'] = '^5.2.1';
+			// If TypeScript is selected, add the TypeScript ESLint parser
+			if (languages === 'TypeScript') {
+				devDependencies['@typescript-eslint/parser'] = '^8.10.0';
+				devDependencies['@typescript-eslint/eslint-plugin'] = '^8.10.0';
+			}
+		}
+		if (tools.includes('Prettier')) {
+			devDependencies['prettier'] = '^3.3.3';
+		}
+
+		if (tools.includes('Jest')) {
+			devDependencies['jest'] = '^29.7.0';
+			if (languages === 'TypeScript') {
+				devDependencies['ts-jest'] = '^29.2.5';
+			}
 		}
 	}
 
@@ -70,6 +96,10 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 
 	if (languages === 'TypeScript') {
 		scripts.build = 'tsc';
+	}
+
+	if (tools.includes('Jest')) {
+		scripts.test = 'jest';
 	}
 
 	const packageJson = {
