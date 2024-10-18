@@ -56,7 +56,7 @@ export const databaseConnectors = [
 export const toolsChoices = [
 	{ name: 'Docker', color: chalk.hex('#2496ED') },
 	{ name: 'GitHub Actions', color: chalk.hex('#2088FF') },
-	{ name: 'Jest', color: chalk.hex('#C21325') },
+	// { name: 'Jest', color: chalk.hex('#C21325') },
 	{ name: 'ESlint', color: chalk.hex('#4B32C3') },
 	{ name: 'Prettier', color: chalk.hex('#F7B93E') },
 ];

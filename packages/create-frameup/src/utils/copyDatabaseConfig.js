@@ -1,9 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { getTemplatePath } from './getTemplatePath.js';
 
 export async function copyDatabaseConfig(database, projectPath, languages) {
 	const dbName = database.toLowerCase();
@@ -11,12 +8,7 @@ export async function copyDatabaseConfig(database, projectPath, languages) {
 	const databaseFileExtension = languages === 'TypeScript' ? 'ts' : 'js';
 
 	const templatePath = path.join(
-		__dirname,
-		'..',
-		'..',
-		'templates',
-		'database',
-		dbName,
+		getTemplatePath('database', dbName),
 		sourceFileName
 	);
 

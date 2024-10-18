@@ -91,7 +91,7 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 		dev:
 			languages === 'TypeScript'
 				? 'ts-node src/index.ts'
-				: 'nodemon src/index.js',
+				: 'node --watch src/index.js',
 	};
 
 	if (languages === 'TypeScript') {

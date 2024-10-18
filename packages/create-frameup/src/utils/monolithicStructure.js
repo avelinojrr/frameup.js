@@ -1,34 +1,31 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { copyDatabaseConfig } from './copyDatabaseConfig.js';
-// import { copyGenericFiles } from './copyGenericFiles.js';
-
-/**
- * Create a monolithic structure for the given architecture and language.
- */
+import { copyReadmeFiles } from './copyReadmeFiles.js';
+import { entryFiles } from './entryFiles.js';
 
 export async function createMonolithicStructure(
 	projectPath,
 	database,
-	languages
-	// designPattern
+	languages,
+	designPattern
 ) {
 	const folders = [
 		'src',
 		'src/config',
-		'src/models',
 		'src/controllers',
-		'src/routes',
-		'src/services',
 		'src/database',
 		'src/middlewares',
+		'src/models',
+		'src/routes',
+		'src/services',
 		'src/utils',
+		'src/views',
 		'tests',
+		'public',
 	];
 
 	try {
-		// Create the folders asynchronously using Promise.all
-
 		await Promise.all(
 			folders.map(async (folder) => {
 				const folderPath = path.join(projectPath, folder);
@@ -38,11 +35,16 @@ export async function createMonolithicStructure(
 		);
 
 		await copyDatabaseConfig(database, projectPath, languages);
+		console.log('Database configuration copied successfully.');
 
-		// await copyGenericFiles(projectPath, language, designPattern);
+		await copyReadmeFiles(projectPath, languages, designPattern);
+		console.log('README files copied successfully.');
+
+		await entryFiles(projectPath, languages);
+		console.log('Entry files created successfully.');
 	} catch (error) {
 		console.error('Error creating monolithic structure:', error);
-		return;
+		throw error;
 	}
 
 	console.log('Monolithic structure created successfully.');
