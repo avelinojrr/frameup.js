@@ -1,4 +1,5 @@
 import { exec } from 'child_process';
+import ora from 'ora';
 
 /**
  * Install the dependencies of the project
@@ -8,18 +9,19 @@ export function installDependencies(packageManager, projectPath) {
 	return new Promise((resolve, reject) => {
 		const installCommand = getInstallCommand(packageManager);
 
-		console.log(`Installing dependencies using ${packageManager}...`);
+		const spinner = ora(
+			`Installing dependencies using ${packageManager}...`
+		).start();
 
-		exec(installCommand, { cwd: projectPath }, (error, stdout, stderr) => {
+		exec(installCommand, { cwd: projectPath }, (error) => {
 			if (error) {
-				console.log(
-					`Error during dependencies installation: ${error.message}`
+				spinner.fail(
+					`Failed to install dependencies: ${error.message}`
 				);
 				reject(error);
 				return;
 			}
-			console.log(stdout);
-			console.log(stderr);
+			spinner.succeed('Dependencies have been installed successfully.');
 			resolve();
 		});
 	});
