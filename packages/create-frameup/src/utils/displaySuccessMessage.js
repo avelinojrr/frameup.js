@@ -9,7 +9,9 @@ export function displaySuccessMessage(projectPath) {
 	);
 	console.log('\n');
 
-	console.log(`📂 We've set everything up at: ${chalk.blue(projectPath)} `);
+	console.log(
+		`📂 We've set everything up at: ${chalk.blue.bold(projectPath)} `
+	);
 	console.log('\n');
 
 	console.log(
@@ -24,6 +26,6 @@ export function displaySuccessMessage(projectPath) {
 	);
 	console.log('\n');
 
-	console.log(chalk.magenta('Happy coding! ✨💻'));
+	console.log(chalk.magenta('Happy coding! 💻✨'));
 	console.log('\n');
 }
