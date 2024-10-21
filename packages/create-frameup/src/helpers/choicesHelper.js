@@ -19,12 +19,15 @@ export const frameworksChoices = [
 
 // Architecture choices
 export const architectureChoices = [
-	{ name: 'Monolithic Architecture', color: frameupColors.outputColor },
+	{ name: 'MVC', color: frameupColors.outputColor },
 ];
 
 // Design pattern choices
 export const designPatternChoices = [
-	{ name: 'MVC', color: frameupColors.outputColor },
+	{ name: 'DAO', color: frameupColors.outputColor },
+	{ name: 'Dependency Injection', color: frameupColors.outputColor },
+	{ name: 'DTOs', color: frameupColors.outputColor },
+	{ name: 'Service Layer', color: frameupColors.outputColor },
 ];
 
 // Database choices

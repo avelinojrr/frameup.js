@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { createMonolithicStructure } from '../utils/monolithicStructure.js';
-import { createMicroservicesStructure } from '../utils/microservicesStructure.js';
+import { createMvcStructure } from '../utils/createMvcStructure.js';
 import { installDependencies } from './packageInstaller.js';
 import { createPackageJson, createTsConfig } from './package.js';
 import { copyToolConfigs } from '../utils/copyToolConfigs.js';
@@ -9,7 +8,7 @@ import { displaySuccessMessage } from '../utils/displaySuccessMessage.js';
 
 // Map the names of architecture and languages to the corresponding folder names
 const architectureMap = {
-	'Monolithic Architecture': 'monolithic',
+	MVC: 'mvc',
 };
 
 const languageMap = {
@@ -23,7 +22,10 @@ const dbMap = {
 };
 
 const designPatternMap = {
-	MVC: 'mvc',
+	DAO: 'dao',
+	'Dependency Injection': 'dependency-injection',
+	DTOs: 'dtos',
+	'Service Layer': 'service-layer',
 };
 
 export async function generateScaffolding(config) {
@@ -70,8 +72,7 @@ export async function generateScaffolding(config) {
 	}
 
 	const architectureHandlers = {
-		monolithic: createMonolithicStructure,
-		microservices: createMicroservicesStructure,
+		mvc: createMvcStructure,
 	};
 
 	const createStructure = architectureHandlers[mappedArchitecture];

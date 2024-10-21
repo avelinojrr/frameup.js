@@ -4,7 +4,7 @@ import { copyDatabaseConfig } from './copyDatabaseConfig.js';
 import { copyReadmeFiles } from './copyReadmeFiles.js';
 import { entryFiles } from './entryFiles.js';
 
-export async function createMonolithicStructure(
+export async function createMvcStructure(
 	projectPath,
 	database,
 	languages,
