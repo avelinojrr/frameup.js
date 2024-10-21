@@ -5,6 +5,7 @@ import { createMicroservicesStructure } from '../utils/microservicesStructure.js
 import { installDependencies } from './packageInstaller.js';
 import { createPackageJson, createTsConfig } from './package.js';
 import { copyToolConfigs } from '../utils/copyToolConfigs.js';
+import { displaySuccessMessage } from '../utils/displaySuccessMessage.js';
 
 // Map the names of architecture and languages to the corresponding folder names
 const architectureMap = {
@@ -101,6 +102,8 @@ export async function generateScaffolding(config) {
 	} catch (error) {
 		console.log(`Error installing dependencies: ${error.message}`);
 	}
+
+	displaySuccessMessage(projectPath);
 
 	console.log(`Project files created in: ${projectPath}`);
 }

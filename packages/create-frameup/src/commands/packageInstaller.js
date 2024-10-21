@@ -1,5 +1,6 @@
 import { exec } from 'child_process';
 import ora from 'ora';
+import chalk from 'chalk';
 
 /**
  * Install the dependencies of the project
@@ -10,14 +11,12 @@ export function installDependencies(packageManager, projectPath) {
 		const installCommand = getInstallCommand(packageManager);
 
 		const spinner = ora(
-			`Installing dependencies using ${packageManager}...`
+			`Installing dependencies... ${chalk.gray('Please wait')}`
 		).start();
 
 		exec(installCommand, { cwd: projectPath }, (error) => {
 			if (error) {
-				spinner.fail(
-					`Failed to install dependencies: ${error.message}`
-				);
+				spinner.fail(`Oops! Something went wrong during installation.`);
 				reject(error);
 				return;
 			}
