@@ -30,22 +30,23 @@ export async function createMvcStructure(
 			folders.map(async (folder) => {
 				const folderPath = path.join(projectPath, folder);
 				await fs.mkdir(folderPath, { recursive: true });
-				console.log(`Created folder: ${folderPath}`);
+				// console.log(`Created folder: ${folderPath}`);
+				// console.log('Folders created successfully 🎉');
 			})
 		);
 
 		await copyDatabaseConfig(database, projectPath, languages);
-		console.log('Database configuration copied successfully.');
+		// console.log('Database configuration copied successfully. 🎉');
 
 		await copyReadmeFiles(projectPath, languages, designPattern);
-		console.log('README files copied successfully.');
+		// console.log('README files copied successfully. 🎉');
 
 		await entryFiles(projectPath, languages);
-		console.log('Entry files created successfully.');
+		// console.log('Entry files created successfully. 🎉');
 	} catch (error) {
-		console.error('Error creating monolithic structure:', error);
+		console.error('Error creating monolithic structure: ❌', error);
 		throw error;
 	}
 
-	console.log('Monolithic structure created successfully.');
+	// console.log('Monolithic structure created successfully.');
 }

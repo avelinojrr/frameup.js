@@ -108,12 +108,14 @@ To run the project locally, follow these steps:
    
    >[!IMPORTANT]
    > Within the `.env` file, you can define environment variables such as `PORT`, `DB_URI` and `JWT_SECRET`, among others. These variables are used to configure the server, connect to the database, and manage JWT tokens, respectively, thus maintaining security of sensitive data such as the database connection or the port to which your server is exposed.
-
    ```
    PORT=4000
    DB_URI=mongodb://localhost:27017/your_database
    JWT_SECRET=your_jwt_secret
    ```
+
+   >[!CAUTION]
+    > Remember not include the `.env` file in your version control system (e.g., Git) to avoid exposing sensitive information. Instead, add it to your `.gitignore` file to prevent it from being tracked.
 
 3. **▶️ Run the server**
    ```bash
