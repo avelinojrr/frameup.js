@@ -25,14 +25,10 @@ export async function copyDatabaseConfig(database, projectPath, languages) {
 
 		// Replace the placeholder values with the actual values
 		await fs.writeFile(destinationPath, fileContent, 'utf-8');
-		// console.log(`Database configuration copied to: ${destinationPath}`);
-		console.log('Database configuration copied successfully 🎉');
 	} catch (error) {
 		if (error.code === 'ENOENT') {
-			console.error(`Template file not found: ${templatePath}`);
 			throw new Error('Template file not found');
 		} else {
-			console.error('Error copying database configuration:', error);
 			throw error;
 		}
 	}

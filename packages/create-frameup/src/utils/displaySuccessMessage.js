@@ -26,6 +26,6 @@ export function displaySuccessMessage(projectPath) {
 	);
 	console.log('\n');
 
-	console.log(chalk.magenta('Happy coding! 💻✨'));
+	console.log(chalk.magenta('Happy coding! 💻 ✨'));
 	console.log('\n');
 }

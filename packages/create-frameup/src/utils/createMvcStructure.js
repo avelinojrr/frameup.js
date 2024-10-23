@@ -30,23 +30,17 @@ export async function createMvcStructure(
 			folders.map(async (folder) => {
 				const folderPath = path.join(projectPath, folder);
 				await fs.mkdir(folderPath, { recursive: true });
-				// console.log(`Created folder: ${folderPath}`);
-				// console.log('Folders created successfully 🎉');
 			})
 		);
 
 		await copyDatabaseConfig(database, projectPath, languages);
-		// console.log('Database configuration copied successfully. 🎉');
-
 		await copyReadmeFiles(projectPath, languages, designPattern);
-		// console.log('README files copied successfully. 🎉');
-
 		await entryFiles(projectPath, languages);
-		// console.log('Entry files created successfully. 🎉');
 	} catch (error) {
-		console.error('Error creating monolithic structure: ❌', error);
-		throw error;
+		if (error.code === 'EEXIST') {
+			console.warn('Folder already exists. Skipping...');
+		} else {
+			throw error;
+		}
 	}
-
-	// console.log('Monolithic structure created successfully.');
 }

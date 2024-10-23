@@ -99,13 +99,9 @@ export async function generateScaffolding(config) {
 
 	try {
 		await installDependencies(selectedPackageManager, projectPath);
-		// console.log(`Dependencies installed using ${selectedPackageManager}`);
-		console.log('Dependencies installed successfully 🎉');
 	} catch (error) {
-		console.log(`Error installing dependencies ❌: ${error.message}`);
+		console.error(`Error installing dependencies ❌: ${error.message}`);
 	}
 
 	displaySuccessMessage(projectPath);
-
-	// console.log(`Project files created in: ${projectPath}`);
 }

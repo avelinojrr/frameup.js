@@ -35,11 +35,8 @@ export async function entryFiles(projectPath, languages) {
 	try {
 		for (const file of entryFiles) {
 			await fs.writeFile(file.path, '', 'utf-8');
-			// console.log(`Created ${file.name} in ${file.path}`);
-			// console.log('Files created successfully 🎉');
 		}
 	} catch (error) {
-		console.log('Error crating entry files: ❌', error);
 		throw new Error(error);
 	}
 }
