@@ -34,6 +34,7 @@ export async function generateScaffolding(config) {
 		architecture,
 		projectName,
 		database,
+		orm,
 		designPattern,
 		tools,
 		packageManager,
@@ -48,7 +49,6 @@ export async function generateScaffolding(config) {
 	const mappedLanguage = languageMap[languages];
 	const mappedDb = dbMap[database];
 	const mappedDesignPattern = designPatternMap[designPattern];
-
 	const selectedPackageManager = packageManager.toLowerCase();
 
 	if (
@@ -81,7 +81,8 @@ export async function generateScaffolding(config) {
 			projectPath,
 			mappedDb,
 			mappedLanguage,
-			mappedDesignPattern
+			mappedDesignPattern,
+			orm
 		);
 	} else {
 		throw new Error(`Unsupported architecture: ${architecture}`);

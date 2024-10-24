@@ -2,17 +2,38 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getTemplatePath } from './getTemplatePath.js';
 
-export async function copyDatabaseConfig(database, projectPath, languages) {
+export async function copyDatabaseConfig(
+	database,
+	projectPath,
+	languages,
+	orm = null
+) {
 	const dbName = database.toLowerCase();
-	const sourceFileName = 'db.js';
 	const databaseFileExtension = languages === 'TypeScript' ? 'ts' : 'js';
 
-	const templatePath = path.join(
-		getTemplatePath('database', dbName),
-		sourceFileName
-	);
+	let sourceFileName;
+	let destinationFileName;
+	let templatePath;
 
-	const destinationFileName = `db.${databaseFileExtension}`;
+	if (orm) {
+		const ormName = orm.toLowerCase();
+
+		sourceFileName = `${ormName}.${databaseFileExtension}`;
+
+		destinationFileName = `${ormName}.${databaseFileExtension}`;
+
+		templatePath = getTemplatePath(
+			'database',
+			dbName,
+			'orm',
+			sourceFileName
+		);
+	} else {
+		sourceFileName = `db.${databaseFileExtension}`;
+		destinationFileName = sourceFileName;
+		templatePath = getTemplatePath('database', dbName, sourceFileName);
+	}
+
 	const destinationPath = path.join(
 		projectPath,
 		'src',
@@ -23,11 +44,10 @@ export async function copyDatabaseConfig(database, projectPath, languages) {
 	try {
 		const fileContent = await fs.readFile(templatePath, 'utf-8');
 
-		// Replace the placeholder values with the actual values
 		await fs.writeFile(destinationPath, fileContent, 'utf-8');
 	} catch (error) {
 		if (error.code === 'ENOENT') {
-			throw new Error('Template file not found');
+			console.warn(`Template file not found: ${templatePath}`);
 		} else {
 			throw error;
 		}

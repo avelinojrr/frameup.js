@@ -1,12 +1,10 @@
-# 🗄️ Database Folder - README Guide
+# Database Folder - README Guide
 
 ## Purpose
 The **database** folder is dedicated to managing all aspects related to the database layer of your application. This includes database connections, models, migrations, seeders, and any utilities or helpers that facilitate interaction with your database. The goal is to centralize all database-related operations for easier maintenance and scalability.
 
 ## Structure
 The database folder typically contains files and subfolders to organize database connection logic, model definitions, and optional utilities like migration and seeding scripts.
-
-> [!NOTE] The structure may vary based on the database technology used (e.g., MongoDB, PostgreSQL, MySQL). The example structure below is a generic representation.
 
 ### Example Structure:
 ```
@@ -32,13 +30,14 @@ database/
 - **Seeders**: Populate the database with initial data to help in testing and development environments.
 - **Helpers and Utilities**: Provide reusable functions that can simplify queries or manage complex database operations.
 
-## Example Database Connection File (`db.js`)
-### MongoDB Connection Example
-```js
-import mongoose from 'mongoose';
-import { dbConfig } from '../config.js';
+## Example Database Connection Files
 
-export const connectToDatabase = async () => {
+### MongoDB Connection with Mongoose (`db.js`)
+```js
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+const connectDB = async () => {
   try {
     await mongoose.connect(process.env.DB_URI, {
       useNewUrlParser: true,
@@ -50,32 +49,77 @@ export const connectToDatabase = async () => {
     process.exit(1);
   }
 };
+
+module.exports = connectDB;
 ```
 
-### PostgreSQL Connection Example
+### PostgreSQL Connection without ORM (`db.js`)
 ```js
 const { Pool } = require('pg');
 require('dotenv').config();
 
 const pool = new Pool({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 const connectDB = async () => {
   try {
     await pool.connect();
-    console.log('PostgreSQL database connected successfully');
+    console.log('PostgreSQL Database connected successfully');
   } catch (error) {
-    console.error('PostgreSQL database connection failed:', error);
+    console.error('PostgreSQL Database connection failed:', error);
     process.exit(1);
   }
 };
 
 module.exports = { pool, connectDB };
+```
+
+### PostgreSQL Connection with Sequelize (`db.js`)
+```js
+const { Sequelize } = require('sequelize');
+require('dotenv').config();
+
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: 'postgres',
+});
+
+const connectDB = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to PostgreSQL using Sequelize has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+    process.exit(1);
+  }
+};
+
+module.exports = { sequelize, connectDB };
+```
+
+### PostgreSQL Connection with Prisma (`db.js`)
+```js
+const { PrismaClient } = require('@prisma/client');
+require('dotenv').config();
+
+const prisma = new PrismaClient();
+
+const connectDB = async () => {
+  try {
+    await prisma.$connect();
+    console.log('Connected to PostgreSQL using Prisma successfully.');
+  } catch (error) {
+    console.error('Prisma connection to PostgreSQL failed:', error);
+    process.exit(1);
+  }
+};
+
+module.exports = { prisma, connectDB };
 ```
 
 ## Best Practices

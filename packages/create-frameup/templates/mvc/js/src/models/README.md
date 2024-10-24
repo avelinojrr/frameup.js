@@ -23,7 +23,7 @@ models/
 ## Example Models
 ### Mongoose (MongoDB) Example (`userModel.js`)
 ```js
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -48,9 +48,8 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema);
 
-module.exports = User;
 ```
 
 ### Sequelize (PostgreSQL or MySQL) Example (`productModel.js`)
@@ -76,7 +75,7 @@ const Product = sequelize.define('Product', {
   tableName: 'products',
 });
 
-module.exports = Product;
+export default Product;
 ```
 
 ## Best Practices

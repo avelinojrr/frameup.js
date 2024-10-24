@@ -8,7 +8,8 @@ export async function createMvcStructure(
 	projectPath,
 	database,
 	languages,
-	designPattern
+	designPattern,
+	orm
 ) {
 	const folders = [
 		'src',
@@ -33,7 +34,7 @@ export async function createMvcStructure(
 			})
 		);
 
-		await copyDatabaseConfig(database, projectPath, languages);
+		await copyDatabaseConfig(database, projectPath, languages, orm);
 		await copyReadmeFiles(projectPath, languages, designPattern);
 		await entryFiles(projectPath, languages);
 	} catch (error) {
