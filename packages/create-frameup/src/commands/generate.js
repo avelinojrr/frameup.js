@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { createMonolithicStructure } from '../utils/monolithicStructure.js';
-import { createMicroservicesStructure } from '../utils/microservicesStructure.js';
+import { createMvcStructure } from '../utils/createMvcStructure.js';
 import { installDependencies } from './packageInstaller.js';
 import { createPackageJson, createTsConfig } from './package.js';
 import { copyToolConfigs } from '../utils/copyToolConfigs.js';
@@ -9,7 +8,7 @@ import { displaySuccessMessage } from '../utils/displaySuccessMessage.js';
 
 // Map the names of architecture and languages to the corresponding folder names
 const architectureMap = {
-	'Monolithic Architecture': 'monolithic',
+	MVC: 'mvc',
 };
 
 const languageMap = {
@@ -23,7 +22,10 @@ const dbMap = {
 };
 
 const designPatternMap = {
-	MVC: 'mvc',
+	DAO: 'dao',
+	'Dependency Injection': 'di',
+	DTOs: 'dtos',
+	'Service Layer': 'service-layer',
 };
 
 export async function generateScaffolding(config) {
@@ -32,6 +34,7 @@ export async function generateScaffolding(config) {
 		architecture,
 		projectName,
 		database,
+		orm,
 		designPattern,
 		tools,
 		packageManager,
@@ -46,7 +49,6 @@ export async function generateScaffolding(config) {
 	const mappedLanguage = languageMap[languages];
 	const mappedDb = dbMap[database];
 	const mappedDesignPattern = designPatternMap[designPattern];
-
 	const selectedPackageManager = packageManager.toLowerCase();
 
 	if (
@@ -70,8 +72,7 @@ export async function generateScaffolding(config) {
 	}
 
 	const architectureHandlers = {
-		monolithic: createMonolithicStructure,
-		microservices: createMicroservicesStructure,
+		mvc: createMvcStructure,
 	};
 
 	const createStructure = architectureHandlers[mappedArchitecture];
@@ -80,7 +81,8 @@ export async function generateScaffolding(config) {
 			projectPath,
 			mappedDb,
 			mappedLanguage,
-			mappedDesignPattern
+			mappedDesignPattern,
+			orm
 		);
 	} else {
 		throw new Error(`Unsupported architecture: ${architecture}`);
@@ -98,12 +100,9 @@ export async function generateScaffolding(config) {
 
 	try {
 		await installDependencies(selectedPackageManager, projectPath);
-		console.log(`Dependencies installed using ${selectedPackageManager}`);
 	} catch (error) {
-		console.log(`Error installing dependencies: ${error.message}`);
+		console.error(`Error installing dependencies ❌: ${error.message}`);
 	}
 
 	displaySuccessMessage(projectPath);
-
-	console.log(`Project files created in: ${projectPath}`);
 }

@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import ora from 'ora';
 import chalk from 'chalk';
-
+import { frameupColors } from '../utils/colors.js';
 /**
  * Install the dependencies of the project
  */
@@ -11,7 +11,9 @@ export function installDependencies(packageManager, projectPath) {
 		const installCommand = getInstallCommand(packageManager);
 
 		const spinner = ora(
-			`Installing dependencies... ${chalk.gray('Please wait')}`
+			`Initializing the project and installing dependencies using ${chalk.dim(
+				'› `' + installCommand + '`'
+			)}`
 		).start();
 
 		exec(installCommand, { cwd: projectPath }, (error) => {
@@ -20,7 +22,9 @@ export function installDependencies(packageManager, projectPath) {
 				reject(error);
 				return;
 			}
-			spinner.succeed('Dependencies have been installed successfully.');
+			spinner.succeed(
+				`${frameupColors.inputColor('Project initialized and dependencies installed correctly.')}`
+			);
 			resolve();
 		});
 	});

@@ -79,37 +79,34 @@ export async function getStackConfig() {
 
 	stackConfig.languages = await promptSelect(
 		'languages',
-		'Select the language you want to use:',
+		`Which language would you like to use: ${chalk.dim('(Use arrow keys)')}`,
 		languagesChoices
 	);
 
 	// Ask about the framework
 	stackConfig.framework = await promptSelect(
 		'framework',
-		'Select the Nodejs framework you want to use:',
+		'Which Node.js framework would you like to use:',
 		frameworksChoices
 	);
 
 	// Ask if developer wants to add an architecture
-	if (await promptConfirm('Would you like to add an architecture?')) {
-		stackConfig.architecture = await promptSelect(
-			'architecture',
-			'Select an architecture to use:',
-			architectureChoices
-		);
-	}
+	stackConfig.architecture = await promptSelect(
+		'architecture',
+		'Which architecture would you like to use:',
+		architectureChoices
+	);
 
-	// Ask if developer wants to add a design pattern
-	if (await promptConfirm('Would you like to add a design pattern?')) {
+	if (stackConfig.architecture === 'MVC') {
 		stackConfig.designPattern = await promptSelect(
-			'designPattern',
-			'Select a design pattern to use:',
+			'designPatterns',
+			`Which design patterns would you like to use: ${chalk.dim('(Use arrow keys)')}`,
 			designPatternChoices
 		);
 	}
 
 	// Ask if developer wants to add a database
-	if (await promptConfirm('Would you like to add a database?')) {
+	if (await promptConfirm('Do you want to use a database?')) {
 		const databaseType = await promptSelect(
 			'databaseType',
 			'Select a database type:',
@@ -123,26 +120,27 @@ export async function getStackConfig() {
 			databaseChoices
 		);
 
-		// Ask if developer wants to add a database connector
-		if (
-			await promptConfirm(
-				'Would you like to add an ORM/ODM for your database?'
-			)
-		) {
+		const connectorMessage =
+			databaseType === 'SQL'
+				? 'Would you like to add an ORM for your database?'
+				: 'Would you like to add an ODM for your database?';
+
+		if (await promptConfirm(connectorMessage)) {
 			const ormChoices =
 				databaseType === 'SQL'
 					? databaseConnectors[0]['ORMs']
 					: databaseConnectors[0]['ODMs'];
-			stackConfig.orm = await promptSelect(
-				'orm',
-				`Select an ORM/ODM for your ${databaseType} database:`,
-				ormChoices
-			);
+			const ormMessage =
+				databaseType === 'SQL'
+					? 'Select an ORM for your database:'
+					: 'Select an ODM for your database:';
+
+			stackConfig.orm = await promptSelect('orm', ormMessage, ormChoices);
 		}
 	}
 
 	// Ask if developer wants to add support tools
-	if (await promptConfirm('Would you like to add some support tools?')) {
+	if (await promptConfirm('Do you want to add support tools?')) {
 		const { tools } = await prompt({
 			type: 'multiselect',
 			name: 'tools',
@@ -181,7 +179,7 @@ export async function getStackConfig() {
 	// Ask about the package manager
 	stackConfig.packageManager = await promptSelect(
 		'packageManager',
-		'Which package manager would you like to use for installation?',
+		'Which package manager do you want to use:',
 		packageManagers
 	);
 

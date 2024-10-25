@@ -26,15 +26,17 @@ export async function entryFiles(projectPath, languages) {
 			name: '.gitignore',
 			path: path.join(projectPath, '.gitignore'),
 		},
+		{
+			name: '.env',
+			path: path.join(projectPath, '.env'),
+		},
 	];
 
 	try {
 		for (const file of entryFiles) {
 			await fs.writeFile(file.path, '', 'utf-8');
-			console.log(`Created ${file.name} in ${file.path}`);
 		}
 	} catch (error) {
-		console.log('Error crating entry files:', error);
 		throw new Error(error);
 	}
 }

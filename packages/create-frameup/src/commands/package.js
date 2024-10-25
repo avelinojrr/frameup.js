@@ -123,8 +123,6 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 		packageJsonContent,
 		'utf8'
 	);
-
-	console.log('Created package.json');
 }
 
 export function createTsConfig(projectPath) {
@@ -151,6 +149,4 @@ export function createTsConfig(projectPath) {
 		tsConfigContent,
 		'utf8'
 	);
-
-	console.log('Created tsconfig.json');
 }

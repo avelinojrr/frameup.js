@@ -7,7 +7,6 @@ export async function copyToolConfigs(projectPath, tools) {
 		for (const tool of tools) {
 			const normalizedTool = tool.toLowerCase().replace(/\s/g, '');
 
-			console.log(`Processing tool: ${normalizedTool}`);
 			switch (normalizedTool) {
 				case 'docker':
 					await copyDockerConfigsFiles(projectPath);
@@ -36,8 +35,7 @@ export async function copyToolConfigs(projectPath, tools) {
 			}
 		}
 	} catch (error) {
-		console.error('Error copying tool configurations:', error);
-		throw error;
+		throw new error();
 	}
 }
 
@@ -50,7 +48,6 @@ async function copyDockerConfigsFiles(projectPath) {
 		const dockerDestination = path.join(projectPath, dockerConfigFile);
 
 		await fs.copyFile(dockerSource, dockerDestination);
-		console.log(`Copied ${dockerConfigFile} to ${projectPath}`);
 	}
 }
 
@@ -66,7 +63,6 @@ async function copyGithubActionsConfigsFiles(projectPath) {
 	const githubActionsDestination = path.join(githubActionsDir, 'ci.yml');
 
 	await fs.copyFile(copiedGithubActionsConfigs, githubActionsDestination);
-	console.log(`Copied ci.yml to ${githubActionsDestination}`);
 }
 
 async function copyJestConfigsFiles(projectPath) {
@@ -75,7 +71,6 @@ async function copyJestConfigsFiles(projectPath) {
 	const jestDestination = path.join(projectPath, 'jest.config.js');
 
 	await fs.copyFile(copiedJestConfigs, jestDestination);
-	console.log(`Copied jest.config.js to ${jestDestination}`);
 }
 
 async function copyESLintConfigsFiles(projectPath) {
@@ -87,7 +82,6 @@ async function copyESLintConfigsFiles(projectPath) {
 		const eslintDestination = path.join(projectPath, eslintConfigFile);
 
 		await fs.copyFile(eslintSource, eslintDestination);
-		console.log(`Copied ${eslintConfigFile} to ${eslintDestination}`);
 	}
 }
 
@@ -103,6 +97,5 @@ async function copyPrettierConfigsFiles(projectPath) {
 		const prettierDestination = path.join(projectPath, prettierConfigFile);
 
 		await fs.copyFile(prettierSource, prettierDestination);
-		console.log(`Copied ${prettierConfigFile} to ${prettierDestination}`);
 	}
 }

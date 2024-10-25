@@ -1,13 +1,10 @@
+/* eslint-disable no-useless-catch */
 import fs from 'fs/promises';
 import path from 'path';
 import { getTemplatePath } from './getTemplatePath.js';
 
 export async function copyReadmeFiles(projectPath, language, designPattern) {
 	const normalizedLanguage = language.toLowerCase();
-
-	console.log(
-		`Language received: ${language}, Design pattern received: ${designPattern}`
-	);
 
 	const folderExtensionMap = {
 		javascript: 'js',
@@ -19,11 +16,7 @@ export async function copyReadmeFiles(projectPath, language, designPattern) {
 		throw new Error(`Unsupported language: ${language}`);
 	}
 
-	const baseTemplatePath = getTemplatePath(
-		'monolithic',
-		designPattern === 'mvc' ? 'mvc' : folderFileExtension,
-		folderFileExtension
-	);
+	const baseTemplatePath = getTemplatePath('mvc', folderFileExtension);
 
 	const foldersToCopyReadme = [
 		'src/config',
@@ -38,8 +31,6 @@ export async function copyReadmeFiles(projectPath, language, designPattern) {
 		'tests',
 		'public',
 	];
-
-	console.log('baseTemplatePath:', baseTemplatePath);
 
 	for (const folder of foldersToCopyReadme) {
 		try {
@@ -56,7 +47,6 @@ export async function copyReadmeFiles(projectPath, language, designPattern) {
 			try {
 				await fs.access(srcReadmePath);
 				await fs.copyFile(srcReadmePath, destReadmePath);
-				console.log(`Copied README.md to ${destFolderPath}`);
 			} catch (error) {
 				if (error.code === 'ENOENT') {
 					console.warn(
@@ -67,7 +57,67 @@ export async function copyReadmeFiles(projectPath, language, designPattern) {
 				}
 			}
 		} catch (error) {
-			console.error(`Error copying README.md to ${folder}:`, error);
+			throw error;
+		}
+	}
+
+	if (designPattern) {
+		const sourcePatternReadmePath = path.join(
+			baseTemplatePath,
+			'patterns',
+			designPattern,
+			'src'
+		);
+
+		try {
+			const patternReadmePath = path.join(
+				sourcePatternReadmePath,
+				'README.md'
+			);
+
+			const destPatternReadmePath = path.join(
+				projectPath,
+				'src',
+				designPattern,
+				'README.md'
+			);
+
+			await fs.mkdir(path.join(projectPath, 'src', designPattern), {
+				recursive: true,
+			});
+
+			try {
+				await fs.access(patternReadmePath);
+				await fs.copyFile(patternReadmePath, destPatternReadmePath);
+			} catch (error) {
+				if (error.code === 'ENOENT') {
+					console.warn(
+						`No README.md found for design pattern ${designPattern} in templates. Skipping...`
+					);
+				} else {
+					throw error;
+				}
+			}
+		} catch (error) {
+			throw error();
+		}
+	}
+
+	const rootReadmePath = getTemplatePath(
+		'mvc',
+		folderFileExtension,
+		'src',
+		'README.md'
+	);
+	const destRootReadmePath = path.join(projectPath, 'README.md');
+
+	try {
+		await fs.access(rootReadmePath);
+		await fs.copyFile(rootReadmePath, destRootReadmePath);
+	} catch (error) {
+		if (error.code === 'ENOENT') {
+			console.warn('No README.md found in templates. Skipping...');
+		} else {
 			throw error;
 		}
 	}
