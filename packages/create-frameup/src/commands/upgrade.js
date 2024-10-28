@@ -1,10 +1,23 @@
 import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import ora from 'ora';
+import chalk from 'chalk';
+
+export async function upgradeProjectCommand() {
+	try {
+		const projectPath = process.cwd();
+		await upgradeProject(projectPath);
+	} catch (error) {
+		console.error(chalk.red(`Failed to upgrade project: ${error.message}`));
+	}
+}
 
 async function upgradeProject(projectPath) {
 	try {
-		console.log(`Upgrading project at path: ${projectPath}...`);
+		const spinner = ora(
+			`Upgrading project at path: ${chalk.cyan(projectPath)}...`
+		).start();
 
 		const packageJsonPath = path.join(projectPath, 'package.json');
 
@@ -36,8 +49,8 @@ async function upgradeProject(projectPath) {
 				break;
 		}
 
-		console.log(
-			`Project dependencies updated successfully using ${packageManager}.`
+		spinner.succeed(
+			`Project dependencies updated successfully using ${chalk.green(packageManager)}.`
 		);
 	} catch (error) {
 		throw new Error(`Error upgrading project: ${error.message}`);
@@ -46,22 +59,16 @@ async function upgradeProject(projectPath) {
 
 async function runCommand(command, workingDirectory) {
 	return new Promise((resolve, reject) => {
-		exec(command, { cwd: workingDirectory }, (error, stdout, stderr) => {
-			if (error) {
-				reject(`Command failed: ${stderr}`);
-			} else {
-				console.log(stdout);
-				resolve();
+		exec(
+			command,
+			{ cwd: workingDirectory, stdio: 'ignore' },
+			(error, stdout, stderr) => {
+				if (error) {
+					reject(`Command failed: ${stderr}`);
+				} else {
+					resolve();
+				}
 			}
-		});
+		);
 	});
-}
-
-export async function upgradeProjectCommand() {
-	try {
-		const projectPath = process.cwd();
-		await upgradeProject(projectPath);
-	} catch (error) {
-		console.error(`Failed to upgrade project: ${error.message}`);
-	}
 }

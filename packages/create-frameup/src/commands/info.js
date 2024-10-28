@@ -1,9 +1,22 @@
 import fs from 'fs/promises';
 import path from 'path';
+import chalk from 'chalk';
+import ora from 'ora';
+
+export async function displayProjectInfoCommand() {
+	try {
+		const projectPath = process.cwd();
+		await displayProjectInfo(projectPath);
+	} catch (error) {
+		console.error(
+			chalk.red(`Error displaying project info: ${error.message}`)
+		);
+	}
+}
 
 async function displayProjectInfo(projectPath) {
 	try {
-		console.log(`Displaying project info for path: ${projectPath}`);
+		const spinner = ora(`Fetching project information...`).start();
 		const packageJsonPath = path.join(projectPath, 'package.json');
 
 		try {
@@ -11,25 +24,17 @@ async function displayProjectInfo(projectPath) {
 			const packageData = JSON.parse(
 				await fs.readFile(packageJsonPath, 'utf-8')
 			);
-			console.log('Project Name:', packageData.name);
-			console.log('Version:', packageData.version);
+			spinner.succeed(`Project Information loaded successfully!`);
+			console.log(chalk.green('Project Name:'), packageData.name);
+			console.log(chalk.green('Version:'), packageData.version);
 			console.log(
-				'Dependencies:',
+				chalk.green('Dependencies:'),
 				Object.keys(packageData.dependencies || {}).join(', ')
 			);
 		} catch {
-			console.log('No package.json file found in the project path.');
+			spinner.fail(`No package.json found in the project directory`);
 		}
 	} catch (error) {
 		throw new Error(`Error displaying project info: ${error.message}`);
-	}
-}
-
-export async function displayProjectInfoCommand() {
-	try {
-		const projectPath = process.cwd();
-		await displayProjectInfo(projectPath);
-	} catch (error) {
-		console.error(`Error displaying project info: ${error.message}`);
 	}
 }
