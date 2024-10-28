@@ -23,9 +23,7 @@ program
 program
 	.command('add <feature>')
 	.description('Add a new feature to the existing project')
-	.action('-D, --dev', 'Install as a devDependency')
-	.action((feature, options) => addFeatureCommand(feature, options));
-
+	.action(addFeatureCommand);
 program
 	.command('remove <feature>')
 	.description('Remove a feature from the existing project')
