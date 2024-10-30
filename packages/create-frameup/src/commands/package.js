@@ -13,6 +13,7 @@ export function createPackageJson(config, projectPath, normalizedProjectName) {
 
 	if (framework === 'Express.js') {
 		dependencies['express'] = '^4.21.1';
+		dependencies['dotenv'] = '^16.4.5';
 	}
 
 	if (database === 'PostgreSQL') {

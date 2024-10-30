@@ -2,9 +2,9 @@
 
 import { Command } from 'commander';
 import { initCommand } from '../src/commands/init.js';
-import { addFeatureCommand } from '../src/commands/addFeature.js';
-import { removeFeatureCommand } from '../src/commands/removeFeature.js';
-import { listFeaturesCommand } from '../src/commands/listFeatures.js';
+import { addPackageCommand } from '../src/commands/addPackages.js';
+import { removePackageCommand } from '../src/commands/removePackages.js';
+import { listPackageCommand } from '../src/commands/listFeatures.js';
 import { displayProjectInfoCommand } from '../src/commands/info.js';
 import { upgradeProjectCommand } from '../src/commands/upgrade.js';
 
@@ -21,18 +21,18 @@ program
 	.action(initCommand);
 
 program
-	.command('add <feature>')
-	.description('Add a new feature to the existing project')
-	.action(addFeatureCommand);
+	.command('add <package>')
+	.description('Add a new package to the existing project')
+	.action(addPackageCommand);
 program
-	.command('remove <feature>')
-	.description('Remove a feature from the existing project')
-	.action(removeFeatureCommand);
+	.command('remove <package>')
+	.description('Remove a package from the existing project')
+	.action(removePackageCommand);
 
 program
 	.command('list')
-	.description('List all the features of the project')
-	.action(listFeaturesCommand);
+	.description('List available packages')
+	.action(listPackageCommand);
 
 program
 	.command('info')
