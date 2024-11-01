@@ -104,5 +104,14 @@ export async function generateScaffolding(config) {
 		console.error(`Error installing dependencies ❌: ${error.message}`);
 	}
 
+	const configPath = path.join(projectPath, '.frameuprc');
+
+	try {
+		fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+		console.log('Project configuration saved in .frameuprc');
+	} catch (error) {
+		console.error(`Failed to save project configuration: ${error.message}`);
+	}
+
 	displaySuccessMessage(projectPath);
 }
