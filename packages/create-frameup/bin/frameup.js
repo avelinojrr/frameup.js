@@ -12,36 +12,36 @@ const program = new Command();
 
 program
 	.name('frameup')
-	.description('Next generation backend tooling for Node.js')
+	.description('New generation backend tooling. Take a look! ✨')
 	.version('1.0.0');
 
 program
 	.command('init')
-	.description('Create a new frameup project')
+	.description('create a new frameup project')
 	.action(initCommand);
 
 program
 	.command('add <package>')
-	.description('Add a new package to the existing project')
+	.description('add a new package to the existing project')
 	.action(addPackageCommand);
 program
 	.command('remove <package>')
-	.description('Remove a package from the existing project')
+	.description('remove a package from the existing project')
 	.action(removePackageCommand);
 
 program
 	.command('list')
-	.description('List available packages')
+	.description('list available packages')
 	.action(listPackageCommand);
 
 program
 	.command('info')
-	.description('Display information about the current project')
+	.description('display information about the current project')
 	.action(displayProjectInfoCommand);
 
 program
 	.command('upgrade')
-	.description('Upgrade the project to the latest version')
+	.description('upgrade the project to the latest version')
 	.action(upgradeProjectCommand);
 
 program.parse(process.argv);
