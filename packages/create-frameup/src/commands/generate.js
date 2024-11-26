@@ -108,7 +108,7 @@ export async function generateScaffolding(config) {
 
 	try {
 		fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-		console.log('Project configuration saved in .frameuprc');
+		// console.log('Project configuration saved in .frameuprc');
 	} catch (error) {
 		console.error(`Failed to save project configuration: ${error.message}`);
 	}
