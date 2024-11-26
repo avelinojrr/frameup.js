@@ -31,3 +31,27 @@ jobs:
             # Lint the code
             - name: Run ESLint
               run: npm run lint
+
+    release:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        # Checks out your repository under $GITHUB_WORKSPACE
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        # Set up Node.js environment
+        - name: Set up Node.js
+          uses: actions/setup-node@v3
+          with:
+              node-version: '18'
+
+        # Install dependencies
+        - name: Install dependencies
+          run: npm install
+
+        # Run semantic-release to manage versioning and releases
+        - name: Release
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: npx semantic-release
