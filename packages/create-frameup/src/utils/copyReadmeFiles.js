@@ -3,7 +3,14 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getTemplatePath } from './getTemplatePath.js';
 
-export async function copyReadmeFiles(projectPath, language, designPattern) {
+const designPatternMap = {
+	DAO: 'dao',
+	'Dependency Injection': 'di',
+	DTOs: 'dtos',
+	'Service Layer': 'service-layer',
+};
+
+export async function copyReadmeFiles(projectPath, language, designPatterns) {
 	const normalizedLanguage = language.toLowerCase();
 
 	const folderExtensionMap = {
@@ -61,11 +68,14 @@ export async function copyReadmeFiles(projectPath, language, designPattern) {
 		}
 	}
 
-	if (designPattern) {
+	if (designPatterns) {
+		const normalizedPattern =
+			designPatternMap[designPatterns].toLowerCase();
+
 		const sourcePatternReadmePath = path.join(
 			baseTemplatePath,
 			'patterns',
-			designPattern,
+			normalizedPattern,
 			'src'
 		);
 
@@ -78,11 +88,11 @@ export async function copyReadmeFiles(projectPath, language, designPattern) {
 			const destPatternReadmePath = path.join(
 				projectPath,
 				'src',
-				designPattern,
+				normalizedPattern,
 				'README.md'
 			);
 
-			await fs.mkdir(path.join(projectPath, 'src', designPattern), {
+			await fs.mkdir(path.join(projectPath, 'src', normalizedPattern), {
 				recursive: true,
 			});
 
@@ -92,7 +102,7 @@ export async function copyReadmeFiles(projectPath, language, designPattern) {
 			} catch (error) {
 				if (error.code === 'ENOENT') {
 					console.warn(
-						`No README.md found for design pattern ${designPattern} in templates. Skipping...`
+						`No README.md found for design pattern ${normalizedPattern} in templates. Skipping...`
 					);
 				} else {
 					throw error;

@@ -8,7 +8,7 @@ export async function createMvcStructure(
 	projectPath,
 	database,
 	languages,
-	designPattern,
+	designPatterns,
 	orm
 ) {
 	const folders = [
@@ -35,7 +35,15 @@ export async function createMvcStructure(
 		);
 
 		await copyDatabaseConfig(database, projectPath, languages, orm);
-		await copyReadmeFiles(projectPath, languages, designPattern);
+
+		for (const pattern of designPatterns) {
+			await copyReadmeFiles(projectPath, languages, pattern);
+			console.log(
+				`README for design pattern ${pattern} copied successfully.`
+			);
+		}
+
+		// await copyReadmeFiles(projectPath, languages, designPattern);
 		await entryFiles(projectPath, languages);
 	} catch (error) {
 		if (error.code === 'EEXIST') {

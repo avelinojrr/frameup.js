@@ -1,7 +1,7 @@
 import { frameupColors } from '../utils/colors.js';
 import chalk from 'chalk';
 import pkg from 'enquirer';
-const { prompt, Select } = pkg;
+const { prompt, Select, MultiSelect } = pkg;
 
 import {
 	languagesChoices,
@@ -61,6 +61,38 @@ async function promptSelect(name, message, choices) {
 	});
 }
 
+async function promptMultiSelect(name, message, choices) {
+	const prompt = new MultiSelect({
+		name,
+		message: frameupColors.inputColor(message),
+		choices: choices.map((choice) => ({
+			name: choice.name,
+			message: choice.color(choice.name),
+			value: choice.name,
+		})),
+		hint: 'Use Space to select. Enter to submit',
+		validate(value) {
+			return value.length > 0
+				? true
+				: 'Select at least one tool or press ESC to skip.';
+		},
+		result(names) {
+			return this.choices
+				.filter((choice) => names.includes(choice.name))
+				.map((choice) => choice.value);
+		},
+		format(input) {
+			const selected = choices.filter((choice) =>
+				input.includes(choice.name)
+			);
+			return selected
+				.map((choice) => choice.color(choice.name))
+				.join(', ');
+		},
+	});
+	return await prompt.run();
+}
+
 export async function getStackConfig() {
 	const stackConfig = {};
 
@@ -98,7 +130,7 @@ export async function getStackConfig() {
 	);
 
 	if (stackConfig.architecture === 'MVC') {
-		stackConfig.designPattern = await promptSelect(
+		stackConfig.designPatterns = await promptMultiSelect(
 			'designPatterns',
 			`Which design patterns would you like to use: ${chalk.dim('(Use arrow keys)')}`,
 			designPatternChoices
