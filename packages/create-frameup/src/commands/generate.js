@@ -41,7 +41,6 @@ export async function generateScaffolding(config) {
 	const mappedArchitecture = architectureMap[architecture];
 	const mappedLanguage = languageMap[languages];
 	const mappedDb = dbMap[database];
-	// const mappedDesignPattern = designPatternMap[designPattern];
 	const selectedPackageManager = packageManager.toLowerCase();
 
 	if (

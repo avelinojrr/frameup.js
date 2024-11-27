@@ -97,7 +97,7 @@ export async function getStackConfig() {
 	const stackConfig = {};
 
 	// Ask about the project name
-	const { projectName } = await prompt({
+	let { projectName } = await prompt({
 		type: 'input',
 		name: 'projectName',
 		message: frameupColors.inputColor('Enter the name of your project:'),
@@ -107,6 +107,12 @@ export async function getStackConfig() {
 				: frameupColors.outputColor('frameup-project');
 		},
 	});
+
+	//Assign the project name to the stackConfig object
+	if (!projectName.trim()) {
+		projectName = 'frameup-project';
+	}
+
 	stackConfig.projectName = projectName;
 
 	stackConfig.languages = await promptSelect(
@@ -173,36 +179,11 @@ export async function getStackConfig() {
 
 	// Ask if developer wants to add support tools
 	if (await promptConfirm('Do you want to add support tools?')) {
-		const { tools } = await prompt({
-			type: 'multiselect',
-			name: 'tools',
-			message: frameupColors.inputColor(
-				'Select the support tools you want to include:'
-			),
-			choices: toolsChoices.map((tool) => ({
-				name: tool.name,
-				message: tool.color(tool.name),
-				value: tool.name,
-				disabled: false,
-			})),
-			hint: 'Use Space to select. Enter to submit',
-			validate(value) {
-				return value.length > 0
-					? true
-					: 'Select at least one tool or press ESC to skip.';
-			},
-			result(names) {
-				return this.choices
-					.filter((choice) => names.includes(choice.name))
-					.map((choice) => choice.value);
-			},
-			format(input) {
-				const selected = toolsChoices.filter((tool) =>
-					input.includes(tool.name)
-				);
-				return selected.map((tool) => tool.color(tool.name)).join(', ');
-			},
-		});
+		const tools = await promptMultiSelect(
+			'tools',
+			'Select the support tools you want to include:',
+			toolsChoices
+		);
 		stackConfig.tools = tools;
 	} else {
 		stackConfig.tools = [];
