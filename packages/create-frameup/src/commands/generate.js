@@ -21,13 +21,6 @@ const dbMap = {
 	MongoDB: 'mongodb',
 };
 
-const designPatternMap = {
-	DAO: 'dao',
-	'Dependency Injection': 'di',
-	DTOs: 'dtos',
-	'Service Layer': 'service-layer',
-};
-
 export async function generateScaffolding(config) {
 	const {
 		languages,
@@ -35,7 +28,7 @@ export async function generateScaffolding(config) {
 		projectName,
 		database,
 		orm,
-		designPattern,
+		designPatterns,
 		tools,
 		packageManager,
 	} = config;
@@ -48,19 +41,18 @@ export async function generateScaffolding(config) {
 	const mappedArchitecture = architectureMap[architecture];
 	const mappedLanguage = languageMap[languages];
 	const mappedDb = dbMap[database];
-	const mappedDesignPattern = designPatternMap[designPattern];
 	const selectedPackageManager = packageManager.toLowerCase();
 
 	if (
 		!mappedArchitecture ||
 		!mappedLanguage ||
 		!mappedDb ||
-		!mappedDesignPattern ||
+		!designPatterns.length ||
 		!selectedPackageManager
 	) {
 		throw new Error(
-			`Invalid configuration: Architecture: ${architecture}, Language: ${languages} ,Database: ${database}, 
-			Design Pattern: ${designPattern}, Package Manager: ${packageManager}`
+			`Invalid configuration: Architecture: ${architecture}, Language: ${languages}, Database: ${database}, 
+			Package Manager: ${packageManager}`
 		);
 	}
 
@@ -81,7 +73,7 @@ export async function generateScaffolding(config) {
 			projectPath,
 			mappedDb,
 			mappedLanguage,
-			mappedDesignPattern,
+			designPatterns,
 			orm
 		);
 	} else {

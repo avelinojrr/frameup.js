@@ -6,7 +6,7 @@ export async function copyDatabaseConfig(
 	database,
 	projectPath,
 	languages,
-	orm = null
+	connector = null
 ) {
 	const dbName = database.toLowerCase();
 	const databaseFileExtension = languages === 'TypeScript' ? 'ts' : 'js';
@@ -15,17 +15,18 @@ export async function copyDatabaseConfig(
 	let destinationFileName;
 	let templatePath;
 
-	if (orm) {
-		const ormName = orm.toLowerCase();
+	if (connector) {
+		const connectorName = connector.toLowerCase();
 
-		sourceFileName = `${ormName}.${databaseFileExtension}`;
+		const folderType = dbName === 'mongodb' ? 'odm' : 'orm';
 
-		destinationFileName = `${ormName}.${databaseFileExtension}`;
+		sourceFileName = `${connectorName}.${databaseFileExtension}`;
+		destinationFileName = `${connectorName}.${databaseFileExtension}`;
 
 		templatePath = getTemplatePath(
 			'database',
 			dbName,
-			'orm',
+			folderType,
 			sourceFileName
 		);
 	} else {
@@ -43,7 +44,6 @@ export async function copyDatabaseConfig(
 
 	try {
 		const fileContent = await fs.readFile(templatePath, 'utf-8');
-
 		await fs.writeFile(destinationPath, fileContent, 'utf-8');
 	} catch (error) {
 		if (error.code === 'ENOENT') {
