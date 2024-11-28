@@ -38,12 +38,8 @@ export async function createMvcStructure(
 
 		for (const pattern of designPatterns) {
 			await copyReadmeFiles(projectPath, languages, pattern);
-			console.log(
-				`README for design pattern ${pattern} copied successfully.`
-			);
 		}
 
-		// await copyReadmeFiles(projectPath, languages, designPattern);
 		await entryFiles(projectPath, languages);
 	} catch (error) {
 		if (error.code === 'EEXIST') {
