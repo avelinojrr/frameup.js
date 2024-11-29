@@ -22,15 +22,15 @@ dtos/
 ## Example DTO (`userDTO.js`)
 ```js
 // userDTO.js
-class UserDTO {
-  constructor({ id, name, email }) {
+export class UserDTO {
+  constructor({ id, name, email, address, phoneNumber, createdAt }) {
     this.id = id;
     this.name = name;
     this.email = email;
+    // Only exposing limited fields: name and email for response
   }
 }
 
-module.exports = UserDTO;
 ```
 
 ### Example Usage in a Controller

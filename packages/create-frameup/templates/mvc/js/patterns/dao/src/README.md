@@ -11,8 +11,8 @@ The DAO pattern involves creating a class or set of classes that interact with t
 ### Example Structure:
 ```
 dao/
-  userDao.js
-  productDao.js
+  userDAO.js
+  productDAO.js
 ```
 
 ## Responsibilities
@@ -20,10 +20,10 @@ dao/
 - **CRUD Operations**: Create, Read, Update, and Delete data for specific entities using models.
 - **Separation of Concerns**: Keep data access separate from business logic and presentation logic, ensuring clean and modular code.
 
-## Example DAO (`userDao.js`)
+## Example DAO (`userDAO.js`)
 ```js
-// userDao.js
-const User = require('../models/userModel');
+// userDAO.js
+import User from '../models/UserModel.js';
 
 class UserDao {
   // Get all users from the database
@@ -73,7 +73,7 @@ class UserDao {
   }
 }
 
-module.exports = new UserDao();
+export default new UserDao();
 ```
 
 ### Explanation
