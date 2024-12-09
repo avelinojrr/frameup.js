@@ -28,6 +28,10 @@ export const designPatternChoices = [
 	{ name: 'Dependency Injection', color: frameupColors.outputColor },
 	{ name: 'DTOs', color: frameupColors.outputColor },
 	{ name: 'Service Layer', color: frameupColors.outputColor },
+	{ name: 'Repository Pattern', color: frameupColors.outputColor },
+	{ name: 'Adapter Pattern', color: frameupColors.outputColor },
+	{ name: 'Factory Pattern', color: frameupColors.outputColor },
+	{ name: 'Observer Pattern', color: frameupColors.outputColor },
 ];
 
 // Database choices

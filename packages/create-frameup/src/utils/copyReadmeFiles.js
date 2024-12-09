@@ -4,10 +4,14 @@ import path from 'path';
 import { getTemplatePath } from './getTemplatePath.js';
 
 const designPatternMap = {
+	'Adapter Pattern': 'adapters',
 	DAO: 'dao',
-	'Dependency Injection': 'di',
 	DTOs: 'dtos',
+	'Dependency Injection': 'di',
 	'Service Layer': 'service-layer',
+	'Factory Pattern': 'factories',
+	'Observer Pattern': 'observer',
+	'Repository Pattern': 'repositories',
 };
 
 export async function copyReadmeFiles(projectPath, language, designPatterns) {
@@ -72,44 +76,55 @@ export async function copyReadmeFiles(projectPath, language, designPatterns) {
 		const normalizedPattern =
 			designPatternMap[designPatterns].toLowerCase();
 
-		const sourcePatternReadmePath = path.join(
-			baseTemplatePath,
-			'patterns',
-			normalizedPattern,
-			'src'
-		);
-
-		try {
-			const patternReadmePath = path.join(
-				sourcePatternReadmePath,
-				'README.md'
-			);
-
-			const destPatternReadmePath = path.join(
-				projectPath,
-				'src',
+		// Skip copying README and creating folder for 'Dependency Injection' and 'Service Layer'
+		if (
+			normalizedPattern === 'di' ||
+			normalizedPattern === 'service-layer'
+		) {
+			// Skipping README.md for design pattern ${designPatterns}
+		} else {
+			const sourcePatternReadmePath = path.join(
+				baseTemplatePath,
+				'patterns',
 				normalizedPattern,
-				'README.md'
+				'src'
 			);
-
-			await fs.mkdir(path.join(projectPath, 'src', normalizedPattern), {
-				recursive: true,
-			});
 
 			try {
-				await fs.access(patternReadmePath);
-				await fs.copyFile(patternReadmePath, destPatternReadmePath);
-			} catch (error) {
-				if (error.code === 'ENOENT') {
-					console.warn(
-						`No README.md found for design pattern ${normalizedPattern} in templates. Skipping...`
-					);
-				} else {
-					throw error;
+				const patternReadmePath = path.join(
+					sourcePatternReadmePath,
+					'README.md'
+				);
+
+				const destPatternReadmePath = path.join(
+					projectPath,
+					'src',
+					normalizedPattern,
+					'README.md'
+				);
+
+				await fs.mkdir(
+					path.join(projectPath, 'src', normalizedPattern),
+					{
+						recursive: true,
+					}
+				);
+
+				try {
+					await fs.access(patternReadmePath);
+					await fs.copyFile(patternReadmePath, destPatternReadmePath);
+				} catch (error) {
+					if (error.code === 'ENOENT') {
+						console.warn(
+							`No README.md found for design pattern ${normalizedPattern} in templates. Skipping...`
+						);
+					} else {
+						throw error;
+					}
 				}
+			} catch (error) {
+				throw error;
 			}
-		} catch (error) {
-			throw error();
 		}
 	}
 

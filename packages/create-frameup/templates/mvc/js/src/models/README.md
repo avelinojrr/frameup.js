@@ -1,4 +1,4 @@
-# Models Folder - README Guide
+# 📦 Models Folder - README Guide
 
 ## Purpose
 The **models** folder is responsible for defining the structure of the data in your application. It serves as the blueprint for how data is organized, validated, and interacted with in your database. Models represent the entities in your application, such as users, products, or orders, and define their attributes, relationships, and validation rules.
